@@ -261,6 +261,117 @@ a {
 .metric-card.warning strong { color: #ffd166; }
 .metric-card.success strong { color: #38f29a; }
 
+.heatmap-card {
+    margin-top: 18px;
+}
+
+.heatmap-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.heatmap-stat {
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(2, 6, 23, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.heatmap-stat span,
+.heatmap-stat strong {
+    display: block;
+}
+
+.heatmap-stat span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9fb0c9;
+}
+
+.heatmap-stat strong {
+    margin-top: 8px;
+    font-size: 22px;
+    color: #f8fbff;
+}
+
+.heatmap-stat.critical strong,
+.heat-cell.critical strong {
+    color: #ff6b6b;
+}
+
+.heatmap-stat.grave strong,
+.heat-cell.grave strong {
+    color: #ffd166;
+}
+
+.heatmap-stat.mild strong,
+.heat-cell.mild strong {
+    color: #38f29a;
+}
+
+.heatmap-stat.global strong {
+    color: #00f2fe;
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.heat-cell {
+    min-height: 150px;
+    padding: 18px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.95), rgba(9, 14, 28, 0.85));
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.heat-zone {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9fb0c9;
+}
+
+.heat-cell strong {
+    font-size: 28px;
+}
+
+.heat-cell small {
+    color: #c7d2e4;
+    line-height: 1.5;
+}
+
+.heat-cell.critical {
+    background: linear-gradient(180deg, rgba(255, 59, 59, 0.22), rgba(9, 14, 28, 0.92));
+    border-color: rgba(255, 107, 107, 0.35);
+}
+
+.heat-cell.grave {
+    background: linear-gradient(180deg, rgba(255, 209, 102, 0.18), rgba(9, 14, 28, 0.92));
+    border-color: rgba(255, 209, 102, 0.3);
+}
+
+.heat-cell.mild {
+    background: linear-gradient(180deg, rgba(56, 242, 154, 0.14), rgba(9, 14, 28, 0.92));
+    border-color: rgba(56, 242, 154, 0.25);
+}
+
+.heatmap-card .status-line {
+    margin-top: 16px;
+    color: #9fb0c9;
+}
+
 .panel-title-row {
     display: flex;
     align-items: center;
@@ -498,6 +609,7 @@ a {
 /* Ajustes para tablets y pantallas medianas */
 @media (max-width: 1100px) {
     .metric-grid,
+    .heatmap-summary,
     .content-grid.two-columns,
     .content-grid.three-columns {
         grid-template-columns: 1fr;
@@ -525,6 +637,10 @@ a {
 
     .role-switcher {
         flex-direction: column;
+    }
+
+    .heatmap-grid {
+        grid-template-columns: 1fr;
     }
 
     .bar-chart {

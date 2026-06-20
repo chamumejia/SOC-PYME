@@ -67,6 +67,70 @@
                 </article>
             </div>
 
+            <section class="panel-card heatmap-card">
+                <div class="panel-title-row">
+                    <div>
+                        <h2>Mapa de Calor SOC-PYME</h2>
+                        <p class="panel-copy" style="margin-top: 6px; max-width: 760px;">Vista simulada para priorizar zonas, países y focos de alerta según la intensidad de actividad crítica, grave o leve.</p>
+                    </div>
+                    <button id="btn-refresh-heatmap" class="action-btn">Actualizar mapa</button>
+                </div>
+
+                <div class="heatmap-summary">
+                    <div class="heatmap-stat critical">
+                        <span>Críticas</span>
+                        <strong id="heat-critical-count">3</strong>
+                    </div>
+                    <div class="heatmap-stat grave">
+                        <span>Graves</span>
+                        <strong id="heat-grave-count">5</strong>
+                    </div>
+                    <div class="heatmap-stat mild">
+                        <span>Leves</span>
+                        <strong id="heat-mild-count">8</strong>
+                    </div>
+                    <div class="heatmap-stat global">
+                        <span>Estado general</span>
+                        <strong id="heat-global-status">Monitoreo activo</strong>
+                    </div>
+                </div>
+
+                <div class="heatmap-grid" id="heatmap-grid">
+                    <div class="heat-cell critical" data-zone="Argentina - Norte">
+                        <span class="heat-zone">Argentina - Norte</span>
+                        <strong>18 alertas</strong>
+                        <small>Alta exposición en tráfico y campañas de phishing</small>
+                    </div>
+                    <div class="heat-cell grave" data-zone="Argentina - Centro">
+                        <span class="heat-zone">Argentina - Centro</span>
+                        <strong>12 alertas</strong>
+                        <small>Movimientos sensibles en cuentas administrativas</small>
+                    </div>
+                    <div class="heat-cell mild" data-zone="Argentina - Sur">
+                        <span class="heat-zone">Argentina - Sur</span>
+                        <strong>6 alertas</strong>
+                        <small>Actividad estable con eventos aislados</small>
+                    </div>
+                    <div class="heat-cell grave" data-zone="Cono Sur">
+                        <span class="heat-zone">Cono Sur</span>
+                        <strong>14 alertas</strong>
+                        <small>Incremento de intentos de acceso y barridos web</small>
+                    </div>
+                    <div class="heat-cell critical" data-zone="Latam">
+                        <span class="heat-zone">Latam</span>
+                        <strong>22 alertas</strong>
+                        <small>Mayor concentración de incidentes críticos</small>
+                    </div>
+                    <div class="heat-cell mild" data-zone="Global">
+                        <span class="heat-zone">Global</span>
+                        <strong>9 alertas</strong>
+                        <small>Se mantiene vigilancia preventiva</small>
+                    </div>
+                </div>
+
+                <p id="heatmap-status" class="status-line"></p>
+            </section>
+
             <div class="content-grid two-columns">
                 <section class="panel-card">
                     <div class="panel-title-row">
