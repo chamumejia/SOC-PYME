@@ -55,6 +55,20 @@
     border-radius: 18px;
     background: #f8fbff;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+}
+
+.world-map-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/a/af/BlueWorldMap.png') center 48% / 94% auto no-repeat;
+    filter:
+        drop-shadow(0 0 1px rgba(15, 23, 42, 0.65))
+        drop-shadow(0 0 7px rgba(14, 165, 233, 0.45));
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .world-map-stage::after {
@@ -67,12 +81,15 @@
     font-weight: 800;
     letter-spacing: 0.22em;
     pointer-events: none;
+    z-index: 3;
 }
 
 .world-map {
+    position: relative;
+    z-index: 1;
     min-height: 460px;
     background:
-        #f8fbff url('https://upload.wikimedia.org/wikipedia/commons/a/af/BlueWorldMap.png') center 48% / 94% auto no-repeat;
+        transparent url('https://upload.wikimedia.org/wikipedia/commons/a/af/BlueWorldMap.png') center 48% / 94% auto no-repeat;
     filter: saturate(1.04);
 }
 
@@ -82,7 +99,9 @@
 
 .map-grid-lines,
 .real-world-silhouette,
-.real-world-borders {
+.real-world-borders,
+.heat-pulses,
+.map-heat-core {
     display: none;
 }
 
@@ -104,7 +123,7 @@
 .continent.active path,
 .continent:hover path,
 .continent:focus-visible path {
-    stroke: rgba(37, 99, 235, 0.26);
+    stroke: rgba(37, 99, 235, 0.24);
     filter: none;
 }
 
@@ -121,54 +140,16 @@
 .continent.mild.active path,
 .continent:hover path,
 .continent:focus-visible path {
-    stroke: rgba(29, 78, 216, 0.26);
+    stroke: rgba(29, 78, 216, 0.24);
 }
 
 .map-region-label {
     display: none;
 }
 
-.heat-pulses {
-    mix-blend-mode: multiply;
-    filter: blur(7px);
-    opacity: 0.58;
-}
-
-.heat-pulses .pulse {
-    transform-box: fill-box;
-    transform-origin: center;
-    stroke: transparent;
-    opacity: 0.5;
-    animation: softHeatPulse 3s infinite ease-in-out;
-}
-
-.pulse-critical {
-    fill: rgba(239, 68, 68, 0.62);
-}
-
-.pulse-grave {
-    fill: rgba(245, 158, 11, 0.5);
-}
-
-.pulse-mild {
-    fill: rgba(34, 197, 94, 0.38);
-}
-
-.map-heat-core {
-    mix-blend-mode: multiply;
-    filter: blur(16px);
-    opacity: 0.72;
-    pointer-events: none;
-}
-
-.map-heat-core circle {
-    opacity: 0.5;
-    transition: cx 0.35s ease, cy 0.35s ease, r 0.35s ease, fill 0.35s ease;
-}
-
 .map-focus-ring circle {
     fill: none;
-    stroke: rgba(29, 78, 216, 0.48);
+    stroke: rgba(29, 78, 216, 0.5);
     stroke-width: 3;
     stroke-dasharray: 8 8;
     pointer-events: none;
@@ -298,17 +279,6 @@
 
     .map-legend {
         justify-content: flex-start;
-    }
-}
-
-@keyframes softHeatPulse {
-    0%, 100% {
-        transform: scale(0.96);
-        opacity: 0.42;
-    }
-    50% {
-        transform: scale(1.06);
-        opacity: 0.62;
     }
 }
 
