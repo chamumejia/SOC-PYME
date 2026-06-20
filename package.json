@@ -1,13 +1,20 @@
 {
   "name": "soc-pyme",
   "version": "1.0.0",
-  "description": "",
+  "description": "Prototipo web de un Centro de Operaciones de Ciberseguridad para PYMES.",
   "main": "dashboard.js",
-"scripts": {
-  "dev": "lite-server"
+  "scripts": {
+    "dev": "lite-server",
+    "start": "lite-server",
+    "check": "node --check script.js && node --check login-script.js && node --check dashboard.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "ciberseguridad",
+    "soc",
+    "pyme",
+    "simulador"
+  ],
+  "author": "Samuel Mejia Rendon",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
