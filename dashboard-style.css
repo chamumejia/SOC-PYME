@@ -372,6 +372,176 @@ a {
     color: #9fb0c9;
 }
 
+.world-map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.world-map-stage {
+    background: radial-gradient(circle at top, rgba(0, 242, 254, 0.08), transparent 40%), #020816;
+    border-radius: 22px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    overflow: hidden;
+    min-height: 560px;
+}
+
+.world-map {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    display: block;
+}
+
+.map-ocean {
+    fill: url(#landGradient);
+}
+
+.map-grid-lines path {
+    stroke: rgba(148, 163, 184, 0.08);
+    stroke-width: 1;
+    fill: none;
+}
+
+.continent {
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+    transform-origin: center;
+}
+
+.continent path {
+    fill: rgba(148, 163, 184, 0.2);
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 2;
+}
+
+.continent.critical path {
+    fill: rgba(255, 59, 59, 0.48);
+    stroke: rgba(255, 107, 107, 0.9);
+    filter: url(#glow);
+}
+
+.continent.grave path {
+    fill: rgba(255, 209, 102, 0.42);
+    stroke: rgba(255, 209, 102, 0.9);
+    filter: url(#glow);
+}
+
+.continent.mild path {
+    fill: rgba(56, 242, 154, 0.32);
+    stroke: rgba(56, 242, 154, 0.85);
+}
+
+.continent.active {
+    transform: scale(1.02);
+    opacity: 1;
+}
+
+.continent:hover,
+.continent:focus-visible {
+    transform: scale(1.03);
+    outline: none;
+}
+
+.continent:hover path,
+.continent:focus-visible path {
+    stroke: #ffffff;
+}
+
+.heat-pulses .pulse {
+    fill: none;
+    stroke-width: 4;
+    opacity: 0.9;
+    animation: pulseExpand 2.2s infinite ease-out;
+}
+
+.pulse-critical {
+    stroke: rgba(255, 59, 59, 0.85);
+}
+
+.pulse-grave {
+    stroke: rgba(255, 209, 102, 0.9);
+}
+
+.pulse-mild {
+    stroke: rgba(56, 242, 154, 0.9);
+}
+
+.map-detail-card {
+    border-radius: 22px;
+    background: rgba(2, 6, 23, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    padding: 22px;
+    display: grid;
+    align-content: start;
+    gap: 14px;
+}
+
+.map-detail-card h3 {
+    font-size: 28px;
+    color: #f8fbff;
+}
+
+.map-detail-score {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 800;
+    color: #00f2fe;
+}
+
+.map-detail-meta {
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    display: grid;
+    gap: 4px;
+}
+
+.map-detail-meta span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9fb0c9;
+}
+
+.map-detail-meta strong {
+    color: #f8fbff;
+    font-size: 16px;
+}
+
+.map-legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    color: #c7d2e4;
+}
+
+.map-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-dot.critical {
+    background: #ff6b6b;
+}
+
+.legend-dot.grave {
+    background: #ffd166;
+}
+
+.legend-dot.mild {
+    background: #38f29a;
+}
+
 .panel-title-row {
     display: flex;
     align-items: center;
@@ -610,6 +780,7 @@ a {
 @media (max-width: 1100px) {
     .metric-grid,
     .heatmap-summary,
+    .world-map-layout,
     .content-grid.two-columns,
     .content-grid.three-columns {
         grid-template-columns: 1fr;
@@ -643,8 +814,28 @@ a {
         grid-template-columns: 1fr;
     }
 
+    .world-map-stage,
+    .world-map {
+        min-height: 360px;
+    }
+
     .bar-chart {
         height: 220px;
         gap: 8px;
+    }
+}
+
+@keyframes pulseExpand {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.95;
+    }
+    80% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
     }
 }
