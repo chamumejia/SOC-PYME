@@ -3,7 +3,8 @@ const roleTabs = document.querySelectorAll('.role-tab');
 const rolePanels = document.querySelectorAll('.role-panel');
 const sessionRole = document.getElementById('session-role');
 const params = new URLSearchParams(window.location.search);
-const role = params.get('role') || 'user';
+const storedRole = sessionStorage.getItem('socpymeRole');
+const role = params.get('role') || storedRole || 'user';
 
 // Texto legible que se muestra según el rol activo.
 const roleLabels = {
@@ -13,6 +14,7 @@ const roleLabels = {
 };
 
 const activeRole = roleLabels[role] ? role : 'user';
+sessionStorage.setItem('socpymeRole', activeRole);
 
 // Muestra únicamente el panel que corresponde al rol elegido.
 function showRolePanel(targetRole) {
@@ -27,6 +29,11 @@ function showRolePanel(targetRole) {
 
 showRolePanel(`${activeRole}-panel`);
 sessionRole.textContent = roleLabels[activeRole] || 'Sesión activa';
+
+const sessionRoleCopy = document.getElementById('session-role-copy');
+if (sessionRoleCopy) {
+    sessionRoleCopy.textContent = roleLabels[activeRole] || 'Usuario / Cliente';
+}
 
 // Cambio de pestañas del panel principal.
 roleTabs.forEach((tab) => {
@@ -60,13 +67,24 @@ if (isolateButton && serverDevice) {
 
 if (pdfButton) {
     pdfButton.addEventListener('click', () => {
-        // Simulación de generación de reporte para el administrador.
-        pdfStatus.textContent = 'Generando reporte PDF...';
+        // Simulación de generación de reporte con barra de progreso.
         pdfButton.disabled = true;
-        setTimeout(() => {
-            pdfStatus.textContent = 'Reporte listo. Simulación de descarga completada.';
-            pdfButton.disabled = false;
-        }, 1600);
+        let porcentaje = 0;
+
+        const intervalo = setInterval(() => {
+            porcentaje += 20;
+            if (pdfStatus) {
+                pdfStatus.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generando auditoría... ${porcentaje}%`;
+            }
+
+            if (porcentaje >= 100) {
+                clearInterval(intervalo);
+                if (pdfStatus) {
+                    pdfStatus.innerHTML = `<span style="color: #10b981;"><i class="fa-solid fa-file-circle-check"></i> Reporte "SOC-Audit_PYME.pdf" descargado con éxito.</span>`;
+                }
+                pdfButton.disabled = false;
+            }
+        }, 400);
     });
 }
 
@@ -116,6 +134,8 @@ const updateProgress = document.getElementById('update-progress');
 const updateMessage = document.getElementById('update-message');
 const debugToggle = document.getElementById('debug-toggle');
 const debugOutput = document.getElementById('debug-output');
+const btnToken = document.getElementById('btn-generate-token');
+const tokenDisplay = document.getElementById('token-display');
 
 if (updateButton && updateProgress && updateMessage) {
     updateButton.addEventListener('click', () => {
@@ -151,5 +171,18 @@ if (debugToggle && debugOutput) {
         // Muestra u oculta la salida técnica adicional del panel.
         debugOutput.classList.toggle('debug-on', debugToggle.checked);
         console.log(debugToggle.checked ? '[DEBUG] Modo de depuración activado' : '[DEBUG] Modo de depuración desactivado');
+    });
+}
+
+if (btnToken && tokenDisplay) {
+    btnToken.addEventListener('click', () => {
+        // Genera una cadena aleatoria imitando un token JWT/Bearer.
+        const randomToken = 'soc_live_' + Math.random().toString(16).substring(2, 15) + Math.random().toString(16).substring(2, 15);
+        tokenDisplay.innerHTML = `
+            <div style="background: rgba(0, 242, 254, 0.1); padding: 10px; border-left: 3px solid #00f2fe; border-radius: 4px;">
+                <strong>Token generado:</strong><br>${randomToken}
+                <br><small style="color: #64748b;">✔ Copiado al portapapeles (Simulado)</small>
+            </div>
+        `;
     });
 }

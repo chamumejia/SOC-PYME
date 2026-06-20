@@ -254,6 +254,25 @@
                     </div>
                 </section>
             </div>
+
+            <div class="content-grid two-columns developer-secondary">
+                <section class="panel-card">
+                    <h2>Credenciales de Integración API</h2>
+                    <p style="font-size: 14px; margin-bottom: 15px; color: #94a3b8;">Genera un token seguro para conectar el ERP de la empresa con las alertas del SOC.</p>
+                    <button id="btn-generate-token" class="action-btn" style="background: linear-gradient(135deg, #0072ff, #00f2fe); color: #050816;">
+                        <i class="fa-solid fa-key"></i> Generar API Token
+                    </button>
+                    <div id="token-display" style="margin-top: 15px; font-family: monospace; font-size: 13px; color: #00f2fe; word-break: break-all;"></div>
+                </section>
+                <section class="panel-card">
+                    <h2>Estado de la Sesión</h2>
+                    <p style="font-size: 14px; margin-bottom: 15px; color: #94a3b8;">El panel recuerda el rol autenticado y mantiene la vista correspondiente aunque vuelvas a abrir el dashboard.</p>
+                    <div class="metrics-stack">
+                        <div class="sys-metric"><span>Rol activo</span><strong id="session-role-copy">Usuario / Cliente</strong></div>
+                        <div class="sys-metric"><span>Persistencia</span><strong>Simulada</strong></div>
+                    </div>
+                </section>
+            </div>
         </section>
     </main>
 

@@ -87,10 +87,15 @@ document.getElementById('form-login').addEventListener('submit', function(e) {
 
         if (usuarioDemo && usuarioDemo.password === clave) {
             intentosFallidos = 0;
-            btnText.innerText = "Acceso Concedido...";
+            errorBox.style.display = 'none';
+            btnText.innerHTML = '<i class="fa-solid fa-check"></i> Acceso Concedido...';
+            const userRole = usuarioDemo.role;
+            sessionStorage.setItem('socpymeRole', userRole);
+            sessionStorage.setItem('socpymeUser', usuario);
             
             setTimeout(() => {
-                window.location.href = `dashboard.html?role=${usuarioDemo.role}&user=${encodeURIComponent(usuario)}`; 
+                alert('¡Ingreso exitoso al sistema de defensa del SOC-PYME!');
+                window.location.href = `dashboard.html?role=${userRole}`; 
             }, 500);
             
         } else {
