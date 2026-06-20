@@ -1,0 +1,291 @@
+/* Mapa mundial SOC-PYME: capa visual moderna sobre el dashboard existente. */
+.heatmap-card {
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(145deg, rgba(8, 13, 25, 0.96), rgba(3, 7, 18, 0.94));
+}
+
+.heatmap-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 85%);
+}
+
+.heatmap-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.heatmap-summary {
+    grid-template-columns: repeat(3, minmax(130px, 1fr)) minmax(260px, 1.35fr);
+}
+
+.heatmap-stat {
+    min-height: 92px;
+    border-radius: 14px;
+    background: rgba(2, 6, 23, 0.62);
+    backdrop-filter: blur(14px);
+}
+
+.heatmap-stat.critical {
+    border-color: rgba(255, 91, 91, 0.42);
+    box-shadow: inset 0 0 24px rgba(255, 59, 59, 0.08);
+}
+
+.heatmap-stat.grave {
+    border-color: rgba(255, 209, 102, 0.38);
+    box-shadow: inset 0 0 24px rgba(255, 209, 102, 0.07);
+}
+
+.heatmap-stat.mild {
+    border-color: rgba(56, 242, 154, 0.32);
+    box-shadow: inset 0 0 24px rgba(56, 242, 154, 0.07);
+}
+
+.world-map-layout {
+    grid-template-columns: minmax(0, 1.75fr) minmax(310px, 0.85fr);
+}
+
+.world-map-stage {
+    position: relative;
+    min-height: 460px;
+    border-radius: 18px;
+    background:
+        linear-gradient(180deg, rgba(8, 47, 73, 0.22), rgba(2, 6, 23, 0.98)),
+        repeating-linear-gradient(0deg, rgba(148, 163, 184, 0.035) 0, rgba(148, 163, 184, 0.035) 1px, transparent 1px, transparent 18px),
+        #020617;
+    box-shadow: inset 0 0 80px rgba(0, 242, 254, 0.08), 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.world-map-stage::after {
+    content: 'GLOBAL THREAT INTELLIGENCE';
+    position: absolute;
+    left: 22px;
+    bottom: 18px;
+    color: rgba(203, 213, 225, 0.32);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    pointer-events: none;
+}
+
+.world-map {
+    min-height: 460px;
+    filter: saturate(1.12);
+}
+
+.map-ocean {
+    fill: rgba(2, 6, 23, 0.74);
+}
+
+.map-grid-lines path {
+    stroke: rgba(125, 211, 252, 0.08);
+}
+
+.continent {
+    outline: none;
+    transform-box: fill-box;
+}
+
+.continent path {
+    fill: rgba(30, 41, 59, 0.94);
+    stroke: rgba(148, 163, 184, 0.28);
+    stroke-width: 2.5;
+    vector-effect: non-scaling-stroke;
+}
+
+.continent.critical path {
+    fill: rgba(239, 68, 68, 0.56);
+    stroke: rgba(255, 111, 111, 0.95);
+    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.58));
+}
+
+.continent.grave path {
+    fill: rgba(245, 158, 11, 0.52);
+    stroke: rgba(251, 191, 36, 0.95);
+    filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.42));
+}
+
+.continent.mild path {
+    fill: rgba(16, 185, 129, 0.38);
+    stroke: rgba(52, 211, 153, 0.9);
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.25));
+}
+
+.continent.active path {
+    stroke: #f8fafc;
+    stroke-width: 4;
+}
+
+.continent:hover path,
+.continent:focus-visible path {
+    stroke: #ffffff;
+    stroke-width: 4;
+}
+
+.map-region-label {
+    fill: rgba(248, 250, 252, 0.78);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-anchor: middle;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: rgba(2, 6, 23, 0.86);
+    stroke-width: 5px;
+}
+
+.heat-pulses .pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    stroke-width: 5;
+}
+
+.pulse-critical {
+    stroke: rgba(255, 91, 91, 0.95);
+}
+
+.pulse-grave {
+    stroke: rgba(251, 191, 36, 0.95);
+}
+
+.pulse-mild {
+    stroke: rgba(52, 211, 153, 0.95);
+}
+
+.map-detail-card {
+    border-radius: 18px;
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(2, 6, 23, 0.82));
+    border-color: rgba(125, 211, 252, 0.18);
+    box-shadow: inset 0 0 40px rgba(0, 242, 254, 0.05);
+}
+
+.map-detail-card.is-critical {
+    border-color: rgba(255, 91, 91, 0.42);
+}
+
+.map-detail-card.is-grave {
+    border-color: rgba(251, 191, 36, 0.42);
+}
+
+.map-detail-card.is-mild {
+    border-color: rgba(52, 211, 153, 0.32);
+}
+
+.map-detail-score {
+    font-size: clamp(34px, 4vw, 52px);
+    color: #67e8f9;
+}
+
+.region-watchlist {
+    display: grid;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.region-watchlist-title {
+    color: #cbd5e1;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+}
+
+.region-watch-item {
+    width: 100%;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    color: #e2e8f0;
+    background: rgba(15, 23, 42, 0.72);
+    cursor: pointer;
+    text-align: left;
+}
+
+.region-watch-item:hover,
+.region-watch-item.active {
+    border-color: rgba(103, 232, 249, 0.45);
+    background: rgba(14, 116, 144, 0.18);
+}
+
+.region-watch-item i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.region-watch-item strong {
+    display: block;
+    font-size: 14px;
+    color: #f8fafc;
+}
+
+.region-watch-item span {
+    font-size: 12px;
+    color: #9fb0c9;
+}
+
+.region-watch-item small {
+    font-size: 13px;
+    color: #cbd5e1;
+    font-weight: 800;
+}
+
+.region-watch-item.critical i { background: #ff6b6b; box-shadow: 0 0 14px rgba(255, 107, 107, 0.55); }
+.region-watch-item.grave i { background: #ffd166; box-shadow: 0 0 14px rgba(255, 209, 102, 0.42); }
+.region-watch-item.mild i { background: #38f29a; box-shadow: 0 0 14px rgba(56, 242, 154, 0.35); }
+
+.map-legend {
+    justify-content: space-between;
+    padding: 12px 14px;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 14px;
+    background: rgba(2, 6, 23, 0.5);
+}
+
+@media (max-width: 1100px) {
+    .heatmap-summary,
+    .world-map-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .world-map-stage,
+    .world-map {
+        min-height: 420px;
+    }
+}
+
+@media (max-width: 640px) {
+    .world-map-stage,
+    .world-map {
+        min-height: 330px;
+    }
+
+    .map-region-label {
+        font-size: 16px;
+    }
+
+    .region-watch-item {
+        grid-template-columns: 10px minmax(0, 1fr);
+    }
+
+    .region-watch-item small {
+        grid-column: 2;
+    }
+
+    .map-legend {
+        justify-content: flex-start;
+    }
+}
