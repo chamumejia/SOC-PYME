@@ -1,3 +1,13 @@
+// Capa visual adicional para el mapa mundial del SOC.
+(function loadHeatmapStyles() {
+    if (!document.querySelector('link[href="dashboard-heatmap.css"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'dashboard-heatmap.css';
+        document.head.appendChild(link);
+    }
+})();
+
 // Selección de pestañas y paneles del dashboard.
 const roleTabs = document.querySelectorAll('.role-tab');
 const rolePanels = document.querySelectorAll('.role-panel');
@@ -48,75 +58,206 @@ const pdfButton = document.getElementById('btn-pdf-report');
 const pdfStatus = document.getElementById('pdf-status');
 const adminStatus = document.getElementById('admin-status');
 const heatmapButton = document.getElementById('btn-refresh-heatmap');
-const heatCells = document.querySelectorAll('.heat-cell');
 const heatCriticalCount = document.getElementById('heat-critical-count');
 const heatGraveCount = document.getElementById('heat-grave-count');
 const heatMildCount = document.getElementById('heat-mild-count');
 const heatGlobalStatus = document.getElementById('heat-global-status');
 const heatmapStatus = document.getElementById('heatmap-status');
 const worldMap = document.getElementById('world-heatmap');
+const mapDetailCard = document.querySelector('.map-detail-card');
 const mapRegionName = document.getElementById('map-region-name');
 const mapRegionScore = document.getElementById('map-region-score');
 const mapRegionNote = document.getElementById('map-region-note');
 const mapRegionSeverity = document.getElementById('map-region-severity');
 const mapRegionRecommendation = document.getElementById('map-region-recommendation');
 
+const severityWeight = {
+    critical: 3,
+    grave: 2,
+    mild: 1
+};
+
+const severityLabels = {
+    critical: 'Crítica',
+    grave: 'Grave',
+    mild: 'Leve'
+};
+
+const regionCoordinates = {
+    'North America': { x: 170, y: 170, labelX: 165, labelY: 88 },
+    'South America': { x: 326, y: 365, labelX: 337, labelY: 520 },
+    Europe: { x: 550, y: 145, labelX: 548, labelY: 98 },
+    Africa: { x: 550, y: 292, labelX: 560, labelY: 450 },
+    'Middle East': { x: 645, y: 210, labelX: 674, labelY: 274 },
+    'Asia Pacific': { x: 900, y: 190, labelX: 890, labelY: 84 },
+    Australia: { x: 975, y: 420, labelX: 980, labelY: 500 },
+    Global: { x: 600, y: 548, labelX: 602, labelY: 570 }
+};
+
 const heatmapScenarios = [
     {
-        label: 'Concentración crítica en Norteamérica, Europa y Asia Pacifico',
-        counts: { critical: 5, grave: 4, mild: 6 },
+        label: 'Presión crítica sobre Norteamérica y Asia Pacífico',
+        counts: { critical: 2, grave: 3, mild: 2 },
         zones: {
-            'North America': { level: 'critical', alerts: 24, note: 'Pico de phishing y movimientos laterales en cadenas corporativas', severity: 'Crítica', recommendation: 'Aislar accesos remotos y reforzar MFA' },
-            'South America': { level: 'grave', alerts: 17, note: 'Incremento de malware bancario y credenciales reutilizadas', severity: 'Grave', recommendation: 'Elevar monitoreo de endpoints y correo' },
-            Europe: { level: 'mild', alerts: 7, note: 'Actividad controlada con campañas de bajo volumen', severity: 'Leve', recommendation: 'Mantener reglas preventivas' },
-            'Middle East': { level: 'grave', alerts: 16, note: 'Intentos de acceso y barridos automatizados', severity: 'Grave', recommendation: 'Revisar bloqueos geográficos' },
-            'Asia Pacific': { level: 'critical', alerts: 29, note: 'Mayor concentración de incidentes críticos en cadena', severity: 'Crítica', recommendation: 'Priorizar contención regional' },
-            Australia: { level: 'mild', alerts: 10, note: 'Monitoreo preventivo sin escalamiento', severity: 'Leve', recommendation: 'Seguimiento normal' },
-            Global: { level: 'mild', alerts: 12, note: 'Cobertura mundial con vigilancia sostenida', severity: 'Leve', recommendation: 'Mantener visibilidad global' }
+            'North America': { level: 'critical', alerts: 31, note: 'Pico de phishing ejecutivo, movimiento lateral y abuso de accesos remotos.', recommendation: 'Reforzar MFA y aislar sesiones sospechosas' },
+            'South America': { level: 'grave', alerts: 17, note: 'Malware bancario y credenciales reutilizadas contra servicios expuestos.', recommendation: 'Elevar monitoreo de endpoints y correo' },
+            Europe: { level: 'mild', alerts: 8, note: 'Campañas de bajo volumen contenidas por reglas preventivas.', recommendation: 'Mantener reglas actuales' },
+            Africa: { level: 'mild', alerts: 6, note: 'Eventos aislados sin escalamiento operativo.', recommendation: 'Seguimiento estándar' },
+            'Middle East': { level: 'grave', alerts: 19, note: 'Barridos automatizados y accesos fallidos a infraestructura pública.', recommendation: 'Revisar bloqueos geográficos' },
+            'Asia Pacific': { level: 'critical', alerts: 34, note: 'Mayor concentración de incidentes críticos en cadena de suministro.', recommendation: 'Priorizar contención regional' },
+            Australia: { level: 'grave', alerts: 15, note: 'Picos puntuales contra frontera externa y VPN.', recommendation: 'Inspeccionar tráfico entrante' },
+            Global: { level: 'grave', alerts: 130, note: 'Cobertura mundial con dos regiones en estado crítico.', recommendation: 'Priorizar focos rojos' }
         }
     },
     {
-        label: 'Escenario mixto con presión en Europa y Norteamérica',
-        counts: { critical: 3, grave: 6, mild: 7 },
+        label: 'Europa y Medio Oriente requieren atención inmediata',
+        counts: { critical: 2, grave: 4, mild: 1 },
         zones: {
-            'North America': { level: 'grave', alerts: 15, note: 'Campañas maliciosas moderadas y exploración de servicios', severity: 'Grave', recommendation: 'Aumentar filtrado y respuesta temprana' },
-            'South America': { level: 'mild', alerts: 8, note: 'Sin variaciones significativas', severity: 'Leve', recommendation: 'Mantener vigilancia estándar' },
-            Europe: { level: 'critical', alerts: 22, note: 'Picos de intentos de acceso a sistemas internos', severity: 'Crítica', recommendation: 'Priorizar aislamiento y validación de identidad' },
-            'Middle East': { level: 'critical', alerts: 26, note: 'Ataques distribuidos detectados en cadena', severity: 'Crítica', recommendation: 'Escalar a contención activa' },
-            'Asia Pacific': { level: 'grave', alerts: 18, note: 'Incremento de alertas de severidad media', severity: 'Grave', recommendation: 'Revisar patrones de entrada' },
-            Australia: { level: 'mild', alerts: 11, note: 'Vigilancia normalizada', severity: 'Leve', recommendation: 'Sin acciones adicionales' },
-            Global: { level: 'mild', alerts: 13, note: 'Cobertura estable con eventos aislados', severity: 'Leve', recommendation: 'Seguimiento continuo' }
+            'North America': { level: 'grave', alerts: 18, note: 'Exploración de servicios corporativos y ataques de contraseña.', recommendation: 'Aumentar filtrado y respuesta temprana' },
+            'South America': { level: 'mild', alerts: 9, note: 'Actividad estable con eventos de correo controlados.', recommendation: 'Mantener vigilancia estándar' },
+            Europe: { level: 'critical', alerts: 29, note: 'Picos de intentos de acceso a sistemas internos y paneles administrativos.', recommendation: 'Validar identidad y aislar cuentas de alto riesgo' },
+            Africa: { level: 'grave', alerts: 14, note: 'Incremento de tráfico anómalo hacia servicios web.', recommendation: 'Revisar reglas WAF' },
+            'Middle East': { level: 'critical', alerts: 32, note: 'Ataques distribuidos detectados en cadena y actividad persistente.', recommendation: 'Escalar a contención activa' },
+            'Asia Pacific': { level: 'grave', alerts: 21, note: 'Incremento de alertas de severidad media en nube pública.', recommendation: 'Revisar patrones de entrada' },
+            Australia: { level: 'grave', alerts: 16, note: 'Actividad elevada pero contenida en perímetro.', recommendation: 'Mantener vigilancia reforzada' },
+            Global: { level: 'grave', alerts: 139, note: 'Escenario mixto con dos zonas críticas y varias graves.', recommendation: 'Coordinar respuesta por prioridad' }
         }
     },
     {
-        label: 'Entorno estabilizado con alertas leves predominantes',
-        counts: { critical: 1, grave: 3, mild: 10 },
+        label: 'Entorno global estabilizado con un foco puntual',
+        counts: { critical: 1, grave: 2, mild: 4 },
         zones: {
-            'North America': { level: 'mild', alerts: 9, note: 'Actividad regular con eventos aislados', severity: 'Leve', recommendation: 'Continuar observación pasiva' },
-            'South America': { level: 'grave', alerts: 13, note: 'Eventos aislados en ventanas fuera de horario', severity: 'Grave', recommendation: 'Revisar cuentas sensibles' },
-            Europe: { level: 'mild', alerts: 5, note: 'Vigilancia sin anomalías mayores', severity: 'Leve', recommendation: 'Mantener operación normal' },
-            'Middle East': { level: 'mild', alerts: 8, note: 'Patrones estables', severity: 'Leve', recommendation: 'Sin acciones adicionales' },
-            'Asia Pacific': { level: 'grave', alerts: 14, note: 'Requiere seguimiento pero sin escalamiento', severity: 'Grave', recommendation: 'Validar accesos regionales' },
-            Australia: { level: 'critical', alerts: 19, note: 'Pico puntual en frontera externa', severity: 'Crítica', recommendation: 'Inspección inmediata de tráfico' },
-            Global: { level: 'mild', alerts: 12, note: 'Monitoreo global equilibrado', severity: 'Leve', recommendation: 'Mantener visibilidad' }
+            'North America': { level: 'mild', alerts: 10, note: 'Actividad regular con eventos aislados.', recommendation: 'Continuar observación pasiva' },
+            'South America': { level: 'grave', alerts: 16, note: 'Eventos fuera de horario sobre cuentas sensibles.', recommendation: 'Revisar privilegios y sesiones' },
+            Europe: { level: 'mild', alerts: 7, note: 'Vigilancia sin anomalías mayores.', recommendation: 'Mantener operación normal' },
+            Africa: { level: 'mild', alerts: 5, note: 'Patrones estables y baja exposición.', recommendation: 'Seguimiento normal' },
+            'Middle East': { level: 'mild', alerts: 8, note: 'Intentos dispersos sin progresión.', recommendation: 'Sin acciones adicionales' },
+            'Asia Pacific': { level: 'grave', alerts: 18, note: 'Alertas medias que requieren seguimiento.', recommendation: 'Validar accesos regionales' },
+            Australia: { level: 'critical', alerts: 24, note: 'Pico puntual en frontera externa con señales de automatización.', recommendation: 'Inspección inmediata de tráfico' },
+            Global: { level: 'mild', alerts: 88, note: 'Monitoreo global equilibrado con un foco prioritario.', recommendation: 'Atender el foco crítico' }
         }
     }
 ];
 
-const worldMapFallbacks = {
-    'North America': { path: 'M80 145 L145 110 L225 118 L282 155 L262 208 L200 224 L154 206 L114 232 L74 205 L52 168 Z', label: 'North America' },
-    'South America': { path: 'M304 266 L348 280 L372 330 L360 387 L334 449 L305 487 L283 459 L291 399 L276 337 Z', label: 'South America' },
-    Europe: { path: 'M505 130 L548 114 L592 121 L606 151 L572 171 L528 165 L501 148 Z', label: 'Europe' },
-    Africa: { path: 'M512 185 L577 192 L621 250 L602 330 L556 400 L494 384 L474 304 L491 227 Z', label: 'Africa' },
-    'Middle East': { path: 'M603 187 L648 181 L684 204 L670 234 L630 238 L610 214 Z', label: 'Middle East' },
-    'Asia Pacific': { path: 'M686 116 L788 94 L915 116 L1038 162 L1044 220 L972 250 L903 233 L853 195 L789 202 L732 184 L683 149 Z', label: 'Asia Pacific' },
-    Australia: { path: 'M918 386 L990 372 L1039 400 L1028 448 L967 462 L915 433 Z', label: 'Australia' },
-    Global: { path: 'M80 520 L200 508 L340 520 L490 514 L640 525 L800 516 L965 522 L1120 514 L1120 584 L80 584 Z', label: 'Global' }
-};
-
 let activeWorldRegion = 'North America';
+let currentHeatmapScenario = heatmapScenarios[0];
+
+function getRegionNode(regionName) {
+    if (!worldMap) {
+        return null;
+    }
+
+    return Array.from(worldMap.querySelectorAll('.continent')).find((node) => node.dataset.region === regionName) || null;
+}
+
+function getRankedRegions(scenario) {
+    return Object.entries(scenario.zones)
+        .filter(([regionName]) => regionName !== 'Global')
+        .sort(([, regionA], [, regionB]) => {
+            const severityDifference = severityWeight[regionB.level] - severityWeight[regionA.level];
+            return severityDifference || regionB.alerts - regionA.alerts;
+        });
+}
+
+function ensureWorldLabels() {
+    if (!worldMap || worldMap.querySelector('.map-labels')) {
+        return;
+    }
+
+    const labelsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    labelsGroup.classList.add('map-labels');
+
+    Object.entries(regionCoordinates).forEach(([regionName, coordinates]) => {
+        if (regionName === 'Global') {
+            return;
+        }
+
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.classList.add('map-region-label');
+        label.setAttribute('x', coordinates.labelX);
+        label.setAttribute('y', coordinates.labelY);
+        label.textContent = regionName.toUpperCase();
+        labelsGroup.appendChild(label);
+    });
+
+    worldMap.appendChild(labelsGroup);
+}
+
+function renderWorldWatchlist(scenario) {
+    if (!mapDetailCard) {
+        return;
+    }
+
+    let watchlist = mapDetailCard.querySelector('.region-watchlist');
+    if (!watchlist) {
+        watchlist = document.createElement('div');
+        watchlist.className = 'region-watchlist';
+        mapDetailCard.appendChild(watchlist);
+    }
+
+    const topRegions = getRankedRegions(scenario).slice(0, 4);
+    watchlist.innerHTML = `
+        <div class="region-watchlist-title">Focos activos</div>
+        ${topRegions.map(([regionName, regionData]) => `
+            <button class="region-watch-item ${regionData.level}${regionName === activeWorldRegion ? ' active' : ''}" type="button" data-region-name="${regionName}">
+                <i aria-hidden="true"></i>
+                <span><strong>${regionName}</strong>${severityLabels[regionData.level]}</span>
+                <small>${regionData.alerts}</small>
+            </button>
+        `).join('')}
+    `;
+
+    watchlist.querySelectorAll('.region-watch-item').forEach((button) => {
+        button.addEventListener('click', () => highlightWorldRegion(button.dataset.regionName));
+    });
+}
+
+function updatePulsePositions(scenario) {
+    if (!worldMap) {
+        return;
+    }
+
+    const pulses = worldMap.querySelectorAll('.heat-pulses .pulse');
+    const topRegions = getRankedRegions(scenario).slice(0, pulses.length);
+
+    pulses.forEach((pulse, index) => {
+        const [regionName, regionData] = topRegions[index] || ['Global', scenario.zones.Global];
+        const coordinates = regionCoordinates[regionName] || regionCoordinates.Global;
+        pulse.setAttribute('cx', coordinates.x);
+        pulse.setAttribute('cy', coordinates.y);
+        pulse.setAttribute('r', regionData.level === 'critical' ? 18 : regionData.level === 'grave' ? 15 : 12);
+        pulse.classList.remove('pulse-critical', 'pulse-grave', 'pulse-mild');
+        pulse.classList.add(`pulse-${regionData.level}`);
+        pulse.style.animationDelay = `${index * 0.22}s`;
+    });
+}
+
+function updateWorldDetail(regionName, scenario) {
+    const zoneData = scenario.zones[regionName] || scenario.zones.Global;
+    if (mapRegionName) {
+        mapRegionName.textContent = regionName;
+    }
+    if (mapRegionScore) {
+        mapRegionScore.textContent = `${zoneData.alerts} alertas`;
+    }
+    if (mapRegionNote) {
+        mapRegionNote.textContent = zoneData.note;
+    }
+    if (mapRegionSeverity) {
+        mapRegionSeverity.textContent = severityLabels[zoneData.level] || zoneData.level;
+    }
+    if (mapRegionRecommendation) {
+        mapRegionRecommendation.textContent = zoneData.recommendation;
+    }
+    if (mapDetailCard) {
+        mapDetailCard.classList.remove('is-critical', 'is-grave', 'is-mild');
+        mapDetailCard.classList.add(`is-${zoneData.level}`);
+    }
+}
 
 function applyHeatmapScenario(scenario) {
+    currentHeatmapScenario = scenario;
+
     const regionNodes = worldMap ? worldMap.querySelectorAll('.continent') : [];
     regionNodes.forEach((regionNode) => {
         const zoneName = regionNode.dataset.region;
@@ -127,6 +268,7 @@ function applyHeatmapScenario(scenario) {
 
         regionNode.classList.remove('critical', 'grave', 'mild', 'active');
         regionNode.classList.add(zoneData.level);
+        regionNode.setAttribute('aria-label', `${zoneName}: ${severityLabels[zoneData.level]}, ${zoneData.alerts} alertas`);
         if (zoneName === activeWorldRegion) {
             regionNode.classList.add('active');
         }
@@ -148,51 +290,33 @@ function applyHeatmapScenario(scenario) {
         heatmapStatus.textContent = `Mapa actualizado: ${scenario.label}.`;
     }
 
+    updatePulsePositions(scenario);
     updateWorldDetail(activeWorldRegion, scenario);
-}
-
-function updateWorldDetail(regionName, scenario) {
-    const zoneData = scenario.zones[regionName] || scenario.zones.Global;
-    if (mapRegionName) {
-        mapRegionName.textContent = regionName;
-    }
-    if (mapRegionScore) {
-        mapRegionScore.textContent = `${zoneData.alerts} alertas`;
-    }
-    if (mapRegionNote) {
-        mapRegionNote.textContent = zoneData.note;
-    }
-    if (mapRegionSeverity) {
-        mapRegionSeverity.textContent = zoneData.severity;
-    }
-    if (mapRegionRecommendation) {
-        mapRegionRecommendation.textContent = zoneData.recommendation;
-    }
+    renderWorldWatchlist(scenario);
 }
 
 function highlightWorldRegion(regionName) {
     activeWorldRegion = regionName;
-    const regionNode = worldMap ? worldMap.querySelector(`[data-region="${regionName}"]`) : null;
-    if (!regionNode) {
-        return;
-    }
-
-    const currentScenario = heatmapScenarios.find((scenario) => scenario.zones[regionName]) || heatmapScenarios[0];
-    updateWorldDetail(regionName, currentScenario);
+    updateWorldDetail(regionName, currentHeatmapScenario);
     if (heatmapStatus) {
-        heatmapStatus.textContent = `Región seleccionada: ${regionName}.`;
+        const regionData = currentHeatmapScenario.zones[regionName];
+        heatmapStatus.textContent = `Región seleccionada: ${regionName} · ${regionData.alerts} alertas · severidad ${severityLabels[regionData.level]}.`;
     }
-    worldMap.querySelectorAll('.continent').forEach((node) => node.classList.toggle('active', node.dataset.region === regionName));
+    if (worldMap) {
+        worldMap.querySelectorAll('.continent').forEach((node) => node.classList.toggle('active', node.dataset.region === regionName));
+    }
+    renderWorldWatchlist(currentHeatmapScenario);
 }
 
 if (heatmapButton) {
     heatmapButton.addEventListener('click', () => {
-        const scenario = heatmapScenarios[Math.floor(Math.random() * heatmapScenarios.length)];
-        applyHeatmapScenario(scenario);
+        const nextIndex = (heatmapScenarios.indexOf(currentHeatmapScenario) + 1) % heatmapScenarios.length;
+        applyHeatmapScenario(heatmapScenarios[nextIndex]);
     });
 }
 
 if (worldMap) {
+    ensureWorldLabels();
     worldMap.querySelectorAll('.continent').forEach((regionNode) => {
         regionNode.addEventListener('click', () => highlightWorldRegion(regionNode.dataset.region));
         regionNode.addEventListener('keydown', (event) => {
@@ -202,10 +326,12 @@ if (worldMap) {
             }
         });
     });
+    applyHeatmapScenario(currentHeatmapScenario);
+    highlightWorldRegion(activeWorldRegion);
 }
 
 if (heatmapStatus) {
-    heatmapStatus.textContent = 'Mapa mundial activo. Haz clic en una región para ver su severidad.';
+    heatmapStatus.textContent = 'Mapa mundial activo. Haz clic en una región o foco activo para ver prioridad y recomendación.';
 }
 
 if (isolateButton && serverDevice) {
@@ -345,9 +471,4 @@ if (btnToken && tokenDisplay) {
             </div>
         `;
     });
-}
-
-if (worldMap) {
-    applyHeatmapScenario(heatmapScenarios[0]);
-    highlightWorldRegion('North America');
 }
