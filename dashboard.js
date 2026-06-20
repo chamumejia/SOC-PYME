@@ -71,6 +71,8 @@ const mapRegionNote = document.getElementById('map-region-note');
 const mapRegionSeverity = document.getElementById('map-region-severity');
 const mapRegionRecommendation = document.getElementById('map-region-recommendation');
 
+const svgNamespace = 'http://www.w3.org/2000/svg';
+
 const severityWeight = {
     critical: 3,
     grave: 2,
@@ -84,15 +86,45 @@ const severityLabels = {
 };
 
 const regionCoordinates = {
-    'North America': { x: 170, y: 170, labelX: 165, labelY: 88 },
-    'South America': { x: 326, y: 365, labelX: 337, labelY: 520 },
-    Europe: { x: 550, y: 145, labelX: 548, labelY: 98 },
-    Africa: { x: 550, y: 292, labelX: 560, labelY: 450 },
-    'Middle East': { x: 645, y: 210, labelX: 674, labelY: 274 },
-    'Asia Pacific': { x: 900, y: 190, labelX: 890, labelY: 84 },
+    'North America': { x: 170, y: 178, labelX: 165, labelY: 88 },
+    'South America': { x: 330, y: 370, labelX: 337, labelY: 520 },
+    Europe: { x: 548, y: 150, labelX: 548, labelY: 98 },
+    Africa: { x: 560, y: 305, labelX: 560, labelY: 450 },
+    'Middle East': { x: 652, y: 218, labelX: 674, labelY: 274 },
+    'Asia Pacific': { x: 880, y: 190, labelX: 890, labelY: 84 },
     Australia: { x: 975, y: 420, labelX: 980, labelY: 500 },
     Global: { x: 600, y: 548, labelX: 602, labelY: 570 }
 };
+
+const worldLandPaths = [
+    'M82 165 C113 132 153 117 194 116 C229 117 262 130 292 152 C315 170 336 194 329 216 C322 237 293 239 270 232 C245 225 229 229 211 242 C194 254 168 253 145 239 C124 226 109 231 88 216 C66 199 60 183 82 165 Z',
+    'M125 102 C157 75 205 72 252 86 C278 95 301 112 298 132 C294 153 260 150 235 145 C208 140 184 145 160 158 C139 169 109 163 98 145 C88 129 101 113 125 102 Z',
+    'M329 244 C358 247 381 263 391 290 C402 320 389 352 371 375 C356 395 350 423 340 449 C329 481 311 511 291 498 C272 485 280 451 284 423 C288 395 274 370 270 342 C265 309 277 278 302 257 C311 250 319 246 329 244 Z',
+    'M488 125 C514 107 553 103 587 114 C611 121 630 137 626 154 C622 172 593 174 571 169 C547 164 526 172 503 164 C480 156 470 139 488 125 Z',
+    'M500 196 C527 178 570 180 603 201 C632 219 652 253 648 289 C644 329 613 361 593 395 C578 421 552 439 527 424 C499 407 492 372 478 340 C465 310 459 275 469 243 C475 221 484 207 500 196 Z',
+    'M612 184 C649 170 690 172 725 191 C749 204 756 224 740 239 C719 258 690 249 664 242 C641 236 615 226 604 207 C599 198 601 189 612 184 Z',
+    'M670 130 C724 94 798 88 869 105 C930 119 997 135 1047 168 C1081 190 1105 226 1087 252 C1069 278 1018 270 979 260 C940 250 909 225 872 212 C832 198 789 210 751 199 C714 188 676 171 670 130 Z',
+    'M794 248 C832 230 884 236 928 250 C970 264 1025 262 1064 290 C1105 321 1083 356 1033 362 C988 367 952 342 915 322 C883 304 830 313 802 288 C787 274 781 259 794 248 Z',
+    'M908 388 C942 369 994 367 1031 391 C1065 413 1057 447 1019 462 C982 476 933 461 905 435 C887 419 887 400 908 388 Z',
+    'M64 515 C191 502 319 515 448 512 C578 509 711 525 839 517 C951 510 1041 506 1132 516 L1132 586 L64 586 Z',
+    'M442 73 C472 58 510 61 532 82 C504 91 471 94 442 73 Z',
+    'M1078 318 C1104 314 1135 321 1154 342 C1130 350 1092 344 1078 318 Z',
+    'M250 214 C278 213 302 224 318 244 C290 249 261 241 250 214 Z',
+    'M743 278 C770 270 802 277 824 296 C796 302 763 297 743 278 Z'
+];
+
+const worldBorderPaths = [
+    'M170 126 C181 158 177 196 150 235',
+    'M248 132 C236 161 235 198 270 232',
+    'M326 252 C333 308 332 377 303 493',
+    'M548 116 C545 139 548 158 571 169',
+    'M548 185 C548 250 547 328 527 424',
+    'M503 242 C554 254 604 252 648 289',
+    'M724 191 C787 188 847 198 915 226',
+    'M882 104 C846 143 838 178 872 212',
+    'M928 250 C944 285 955 324 1019 362',
+    'M949 381 C957 411 973 442 1019 462'
+];
 
 const heatmapScenarios = [
     {
@@ -142,12 +174,40 @@ const heatmapScenarios = [
 let activeWorldRegion = 'North America';
 let currentHeatmapScenario = heatmapScenarios[0];
 
-function getRegionNode(regionName) {
-    if (!worldMap) {
-        return null;
+function createSvgElement(tagName, attributes = {}) {
+    const element = document.createElementNS(svgNamespace, tagName);
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    return element;
+}
+
+function ensureRealWorldMap() {
+    if (!worldMap || worldMap.querySelector('.real-world-silhouette')) {
+        return;
     }
 
-    return Array.from(worldMap.querySelectorAll('.continent')).find((node) => node.dataset.region === regionName) || null;
+    const silhouette = createSvgElement('g', { class: 'real-world-silhouette', 'aria-hidden': 'true' });
+    worldLandPaths.forEach((pathData) => {
+        silhouette.appendChild(createSvgElement('path', { d: pathData }));
+    });
+
+    const borders = createSvgElement('g', { class: 'real-world-borders', 'aria-hidden': 'true' });
+    worldBorderPaths.forEach((pathData) => {
+        borders.appendChild(createSvgElement('path', { d: pathData }));
+    });
+
+    const heatCore = createSvgElement('g', { class: 'map-heat-core', 'aria-hidden': 'true' });
+    for (let index = 0; index < 5; index++) {
+        heatCore.appendChild(createSvgElement('circle', { cx: 0, cy: 0, r: 0 }));
+    }
+
+    const focusRing = createSvgElement('g', { class: 'map-focus-ring', 'aria-hidden': 'true' });
+    focusRing.appendChild(createSvgElement('circle', { cx: regionCoordinates[activeWorldRegion].x, cy: regionCoordinates[activeWorldRegion].y, r: 42 }));
+
+    const firstRegion = worldMap.querySelector('.continent');
+    worldMap.insertBefore(silhouette, firstRegion);
+    worldMap.insertBefore(borders, firstRegion);
+    worldMap.insertBefore(heatCore, firstRegion);
+    worldMap.appendChild(focusRing);
 }
 
 function getRankedRegions(scenario) {
@@ -157,30 +217,6 @@ function getRankedRegions(scenario) {
             const severityDifference = severityWeight[regionB.level] - severityWeight[regionA.level];
             return severityDifference || regionB.alerts - regionA.alerts;
         });
-}
-
-function ensureWorldLabels() {
-    if (!worldMap || worldMap.querySelector('.map-labels')) {
-        return;
-    }
-
-    const labelsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    labelsGroup.classList.add('map-labels');
-
-    Object.entries(regionCoordinates).forEach(([regionName, coordinates]) => {
-        if (regionName === 'Global') {
-            return;
-        }
-
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label.classList.add('map-region-label');
-        label.setAttribute('x', coordinates.labelX);
-        label.setAttribute('y', coordinates.labelY);
-        label.textContent = regionName.toUpperCase();
-        labelsGroup.appendChild(label);
-    });
-
-    worldMap.appendChild(labelsGroup);
 }
 
 function renderWorldWatchlist(scenario) {
@@ -212,23 +248,44 @@ function renderWorldWatchlist(scenario) {
     });
 }
 
+function getHeatColor(level) {
+    if (level === 'critical') {
+        return 'rgba(239, 68, 68, 0.78)';
+    }
+    if (level === 'grave') {
+        return 'rgba(245, 158, 11, 0.68)';
+    }
+    return 'rgba(34, 197, 94, 0.48)';
+}
+
 function updatePulsePositions(scenario) {
     if (!worldMap) {
         return;
     }
 
+    const topRegions = getRankedRegions(scenario).slice(0, 5);
     const pulses = worldMap.querySelectorAll('.heat-pulses .pulse');
-    const topRegions = getRankedRegions(scenario).slice(0, pulses.length);
+    const heatCore = worldMap.querySelectorAll('.map-heat-core circle');
 
-    pulses.forEach((pulse, index) => {
-        const [regionName, regionData] = topRegions[index] || ['Global', scenario.zones.Global];
+    topRegions.forEach(([regionName, regionData], index) => {
         const coordinates = regionCoordinates[regionName] || regionCoordinates.Global;
-        pulse.setAttribute('cx', coordinates.x);
-        pulse.setAttribute('cy', coordinates.y);
-        pulse.setAttribute('r', regionData.level === 'critical' ? 18 : regionData.level === 'grave' ? 15 : 12);
-        pulse.classList.remove('pulse-critical', 'pulse-grave', 'pulse-mild');
-        pulse.classList.add(`pulse-${regionData.level}`);
-        pulse.style.animationDelay = `${index * 0.22}s`;
+        const radius = regionData.level === 'critical' ? 72 : regionData.level === 'grave' ? 58 : 44;
+
+        if (pulses[index]) {
+            pulses[index].setAttribute('cx', coordinates.x);
+            pulses[index].setAttribute('cy', coordinates.y);
+            pulses[index].setAttribute('r', radius * 0.56);
+            pulses[index].classList.remove('pulse-critical', 'pulse-grave', 'pulse-mild');
+            pulses[index].classList.add(`pulse-${regionData.level}`);
+            pulses[index].style.animationDelay = `${index * 0.22}s`;
+        }
+
+        if (heatCore[index]) {
+            heatCore[index].setAttribute('cx', coordinates.x);
+            heatCore[index].setAttribute('cy', coordinates.y);
+            heatCore[index].setAttribute('r', radius);
+            heatCore[index].setAttribute('fill', getHeatColor(regionData.level));
+        }
     });
 }
 
@@ -252,6 +309,14 @@ function updateWorldDetail(regionName, scenario) {
     if (mapDetailCard) {
         mapDetailCard.classList.remove('is-critical', 'is-grave', 'is-mild');
         mapDetailCard.classList.add(`is-${zoneData.level}`);
+    }
+
+    const focusCircle = worldMap ? worldMap.querySelector('.map-focus-ring circle') : null;
+    const coordinates = regionCoordinates[regionName] || regionCoordinates.Global;
+    if (focusCircle) {
+        focusCircle.setAttribute('cx', coordinates.x);
+        focusCircle.setAttribute('cy', coordinates.y);
+        focusCircle.setAttribute('r', zoneData.level === 'critical' ? 58 : zoneData.level === 'grave' ? 48 : 40);
     }
 }
 
@@ -316,7 +381,7 @@ if (heatmapButton) {
 }
 
 if (worldMap) {
-    ensureWorldLabels();
+    ensureRealWorldMap();
     worldMap.querySelectorAll('.continent').forEach((regionNode) => {
         regionNode.addEventListener('click', () => highlightWorldRegion(regionNode.dataset.region));
         regionNode.addEventListener('keydown', (event) => {
