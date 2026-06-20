@@ -1,0 +1,307 @@
+/* ==========================================================================
+    ESTILOS BASE DE LA PANTALLA DE ACCESO
+    ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #060913;
+    color: #e2e8f0;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 0;
+    overflow-y: auto;
+    background-image: 
+        radial-gradient(at 50% 50%, rgba(0, 114, 255, 0.1) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.05) 0px, transparent 50%);
+}
+
+/* Contenedor principal que centra la tarjeta de acceso */
+.login-container {
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Tarjeta central donde viven login y registro */
+.login-card {
+    background-color: #0b1120;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+    padding: 40px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow-y: auto;
+}
+
+/* Línea superior decorativa para dar identidad visual */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #0072ff, #00f2fe);
+}
+
+/* Encabezado con logo y título */
+.login-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.logo i {
+    color: #00f2fe;
+    margin-right: 5px;
+}
+
+.logo span {
+    color: #00f2fe;
+}
+
+.login-header h2 {
+    font-size: 22px;
+    color: #fff;
+}
+
+.login-header p {
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+}
+
+/* Campos de formulario: etiquetas e inputs */
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group label {
+    display: block;
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-group label i {
+    color: #00f2fe;
+    margin-right: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    padding: 12px 16px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #00f2fe;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+}
+
+/* Botón que permite mostrar u ocultar la contraseña */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toggle-password:hover {
+    color: #00f2fe;
+}
+
+/* Caja de error para credenciales incorrectas o bloqueos */
+.error-box {
+    display: none; 
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Botón principal de envío */
+.btn-login-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #0072ff, #00f2fe);
+    color: #060913;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-login-submit:hover {
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Enlaces para cambiar entre login y registro */
+.switch-text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.switch-text a {
+    color: #00f2fe;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.switch-text a:hover {
+    text-decoration: underline;
+}
+
+.demo-credentials {
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.72);
+}
+
+.demo-credentials h3 {
+    font-size: 15px;
+    color: #e2e8f0;
+    margin-bottom: 12px;
+}
+
+.credential-list {
+    display: grid;
+    gap: 10px;
+}
+
+.credential-item {
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(2, 6, 23, 0.6);
+    border: 1px solid #1f2937;
+}
+
+.credential-item strong {
+    display: block;
+    color: #00f2fe;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.credential-item span,
+.credential-item small {
+    display: block;
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Pie de la tarjeta con el enlace de retorno */
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #1e293b;
+}
+
+.login-footer a {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.login-footer a:hover {
+    color: #00f2fe;
+}
+
+/* Bloque de responsive para pantallas pequeñas */
+@media (max-width: 720px) {
+    body {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .login-container {
+        min-height: auto;
+        padding: 0;
+    }
+
+    .login-card {
+        max-width: 100%;
+        max-height: none;
+        overflow: visible;
+        padding: 28px 18px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .login-header h2 {
+        font-size: 20px;
+    }
+
+    .demo-credentials {
+        padding: 14px;
+    }
+}
+
+/* Ajuste adicional cuando la altura de pantalla es reducida */
+@media (max-height: 720px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .login-card {
+        max-height: none;
+    }
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos para que el navegador interprete la página correctamente -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC-PYME | Centro de Operaciones de Ciberseguridad</title>
+    <!-- Hoja de estilos principal del sitio -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Iconos externos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Encabezado con logo y navegación principal -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> SOC-<span>PYME</span>
+        </div>
+        <!-- Botón para abrir o cerrar el menú en pantallas pequeñas -->
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+            <span>Menú</span>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+        <!-- Enlaces de navegación a las secciones de la página -->
+        <nav id="primary-navigation">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#descubre">¿Qué es?</a></li>
+                <li><a href="#simulador">Monitor en Vivo</a></li>
+                <li><a href="#contacto" class="btn-contacto">Contacto</a></li>
+                <li><a href="login.html" class="btn-login"><i class="fa-solid fa-user-lock"></i> Iniciar Sesión</a></li>
+                <li><a href="login.html?action=register" class="btn-register"><i class="fa-solid fa-user-plus"></i> Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección principal de presentación -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Protección Profesional de Ciberseguridad para PYMES</h1>
+            <p>Monitoreamos, detectamos y mitigamos amenazas digitales antes de que afecten tu negocio. Infraestructura SOC avanzada al alcance de pequeñas y medianas empresas.</p>
+            <div class="hero-buttons">
+                <a href="#simulador" class="btn-primary">Ver Monitor en Vivo</a>
+                <a href="#descubre" class="btn-secondary">Saber Más</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bloque de servicios que ofrece el proyecto -->
+    <section id="servicios" class="services">
+        <h2>Nuestros Servicios de Respaldo</h2>
+        <p class="subtitle">Seguridad de nivel corporativo adaptada al presupuesto y necesidades de tu empresa.</p>
+        
+        <div class="services-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+                <h3>Monitoreo 24/7</h3>
+                <p>Vigilancia continua de tu red e infraestructura para identificar anomalías o comportamientos sospechosos de manera inmediata.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <h3>Respuesta a Incidentes</h3>
+                <p>Un equipo de analistas expertos listos para intervenir y contener cualquier brecha de seguridad antes de que cause daños.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-bug-slash"></i></div>
+                <h3>Análisis de Vulnerabilidades</h3>
+                <p>Evaluamos tus sistemas periódicamente para encontrar fallos y corregirlos antes de que los ciberdelincuentes los exploten.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explicación del proyecto, su funcionamiento y sus beneficios -->
+    <section id="descubre" class="discover-section">
+        <div class="discover-block">
+            <h2>¿Qué es SOC-PYME?</h2>
+            <p class="subtitle">La solución definitiva a la seguridad digital de los pequeños negocios.</p>
+            <div class="discover-content">
+                <div class="discover-text">
+                    <p>Un <strong>SOC (Security Operations Center)</strong> es un centro de comando centralizado donde expertos en seguridad informática usan herramientas de software avanzado para vigilar la infraestructura de una empresa.</p>
+                    <p>Tradicionalmente, solo las multinacionales podían pagar un SOC. Nuestro proyecto nace para democratizar esta tecnología, ofreciendo un escudo digital robusto, automatizado y económico diseñado exclusivamente para las Pequeñas y Medianas Empresas (PYMES).</p>
+                </div>
+                <div class="discover-highlight">
+                    <i class="fa-solid fa-building-shield"></i>
+                    <span>Seguridad Corporativa al alcance de tu negocio.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separador visual entre bloques de contenido -->
+        <hr class="section-divider">
+
+        <div class="discover-block">
+            <h2>¿Cómo Funciona Nuestro Sistema?</h2>
+            <p class="subtitle">Un proceso inteligente de tres pasos ejecutado en tiempo real.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h3>Recolección</h3>
+                    <p>Instalamos agentes ligeros en tus servidores y computadoras que analizan el tráfico de red de forma silenciosa y sin ralentizar tus equipos.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h3>Detección Inteligente</h3>
+                    <p>Nuestro núcleo analiza los datos buscando patrones extraños (como hackeos por fuerza bruta o descargas sospechosas de virus) las 24 horas.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h3>Mitigación Inmediata</h3>
+                    <p>Cuando el sistema halla una amenaza real, bloquea la IP atacante y aísla el equipo afectado de manera automática mientras notifica a los ingenieros.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separador visual entre bloques de contenido -->
+        <hr class="section-divider">
+
+        <div class="discover-block">
+            <h2>¿Por qué lo querrías y cómo te sirve?</h2>
+            <p class="subtitle">Razones estratégicas para blindar tu infraestructura tecnológica.</p>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <div>
+                        <h3>Evita Pérdidas Financieras</h3>
+                        <p>Un secuestro de datos (Ransomware) puede quebrar a una PYME. Prevenir ataques cuesta una fracción de lo que costaría recuperar la información perdida.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <i class="fa-solid fa-business-time"></i>
+                    <div>
+                        <h3>Continuidad de tu Negocio</h3>
+                        <p>Garantiza que tu página web, base de datos de facturación o correos corporativos nunca dejen de funcionar a causa de ataques externos.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <div>
+                        <h3>Cumplimiento Legal y Confianza</h3>
+                        <p>Protege la información confidencial de tus clientes. Demuestra un estándar alto de profesionalismo y evita sanciones legales por filtración de datos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulador visual del monitoreo SOC en tiempo real -->
+    <section id="simulador" class="simulator-section">
+        <h2>Consola de Monitoreo SOC (Simulador)</h2>
+        <p class="subtitle">Así es como nuestro equipo visualiza y frena los ataques en tiempo real.</p>
+        
+        <div class="soc-stats-container">
+            <div class="stat-card attacks">
+                <div class="stat-icon"><i class="fa-solid fa-skull-crossbones"></i></div>
+                <div class="stat-info">
+                    <h4>Ataques Bloqueados</h4>
+                    <p id="contador-ataques">142</p>
+                </div>
+            </div>
+            <div class="stat-card status">
+                <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-info">
+                    <h4>Estado del Sistema</h4>
+                    <p class="status-active">Protegido</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">soc-pyme-core_monitor_v1.0.8</span>
+            </div>
+            <div class="terminal-body" id="terminal-logs">
+                <p class="log system">[SISTEMA] Inicializando módulos de defensa perimetral...</p>
+                <p class="log system">[SISTEMA] Estado: Conexiones seguras. Buscando anomalías...</p>
+            </div>
+        </div>
+        <button id="btn-generar-alerta" class="btn-alert">Simular Intento de Ataque</button>
+    </section>
+
+    <!-- Formulario de contacto para solicitar información o diagnóstico -->
+    <section id="contacto" class="contact-section">
+        <h2>¿Quieres asegurar tu PYME?</h2>
+        <p class="subtitle">Déjanos tus datos y un analista del SOC se pondrá en contacto contigo.</p>
+        
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Gracias por tu interés! Esto es una simulación del proyecto escolar.');">
+            <input type="text" placeholder="Nombre de la empresa" required>
+            <input type="email" placeholder="Correo electrónico corporativo" required>
+            <textarea placeholder="Cuéntanos brevemente qué te preocupa de tu seguridad digital..." rows="4"></textarea>
+            <button type="submit" class="btn-submit">Solicitar Diagnóstico Gratis</button>
+        </form>
+    </section>
+
+    <!-- Pie de página con crédito del proyecto -->
+    <footer>
+        <p>&copy; 2026 SOC-PYME - Proyecto de Ciberseguridad. Todos los derechos reservados.</p>
+        <p style="font-size: 12px; color: #64748b; margin-top: 5px;">Desarrollado por: Samuel Mejía Rendón | Técnico en Análisis y Desarrollo de Software</p>
+    </footer>
+
+    <!-- Archivo JavaScript que da comportamiento interactivo a la página -->
+    <script src="script.js"></script>
+</body>
+</html>

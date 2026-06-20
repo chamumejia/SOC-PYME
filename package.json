@@ -1,0 +1,16 @@
+{
+  "name": "soc-pyme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dashboard.js",
+"scripts": {
+  "dev": "lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos y título de la pantalla de acceso -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC-PYME | Autenticación Segura</title>
+    <!-- Estilos específicos del formulario de login y registro -->
+    <link rel="stylesheet" href="login-style.css">
+    <!-- Iconos externos para reforzar la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Contenedor general que centra la tarjeta de autenticación -->
+    <div class="login-container">
+        <div class="login-card">
+            
+            <!-- Bloque de inicio de sesión -->
+            <div id="login-section">
+                <div class="login-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-shield-halved"></i> SOC-<span>PYME</span>
+                    </div>
+                    <h2>Control de Acceso</h2>
+                    <p>Centro de Operaciones de Seguridad</p>
+                </div>
+
+                <form id="form-login">
+                    <div class="input-group">
+                        <label for="username"><i class="fa-solid fa-user-shield"></i> Correo de acceso</label>
+                        <input type="text" id="username" placeholder="Ej: admin@socpyme.com" required autocomplete="off">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password"><i class="fa-solid fa-lock"></i> Clave de Seguridad</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" placeholder="••••••••" required>
+                            <button type="button" id="btn-toggle-password" class="toggle-password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="error-message" class="error-box">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Credenciales incorrectas (Usa admin / 1234).
+                    </div>
+
+                    <button type="submit" class="btn-login-submit">
+                        <span id="btn-text">Autenticar Sistema</span>
+                        <i class="fa-solid fa-key"></i>
+                    </button>
+                </form>
+
+                <div class="demo-credentials">
+                    <h3>Credenciales de prueba</h3>
+                    <div class="credential-list">
+                        <div class="credential-item">
+                            <strong>Administrador</strong>
+                            <span>admin@socpyme.com</span>
+                            <small>SocAdmin#2026</small>
+                        </div>
+                        <div class="credential-item">
+                            <strong>Desarrollador</strong>
+                            <span>dev@socpyme.com</span>
+                            <small>SocDev#2026</small>
+                        </div>
+                        <div class="credential-item">
+                            <strong>Usuario / Cliente</strong>
+                            <span>usuario@socpyme.com</span>
+                            <small>SocUser#2026</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="switch-text">
+                    ¿Eres un cliente nuevo? <a href="#" id="link-to-register">Regístrate aquí</a>
+                </div>
+            </div>
+
+            <!-- Bloque de registro que se muestra al cambiar de modo -->
+            <div id="register-section" style="display: none;">
+                <div class="login-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-shield-halved"></i> SOC-<span>PYME</span>
+                    </div>
+                    <h2>Registro de Operaciones</h2>
+                    <p>Alta de nueva PYME en el Servidor</p>
+                </div>
+
+                <form id="form-register">
+                    <div class="input-group">
+                        <label for="reg-company"><i class="fa-solid fa-building"></i> Nombre de la Empresa</label>
+                        <input type="text" id="reg-company" placeholder="Mi Empresa S.A." required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-email"><i class="fa-solid fa-envelope"></i> Correo Electrónico</label>
+                        <input type="email" id="reg-email" placeholder="seguridad@pyme.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-password"><i class="fa-solid fa-lock"></i> Asignar Contraseña</label>
+                        <input type="password" id="reg-password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-login-submit" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
+                        <span>Registrar Infraestructura</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </form>
+
+                <div class="switch-text">
+                    ¿Ya eres miembro del SOC? <a href="#" id="link-to-login">Inicia Sesión</a>
+                </div>
+            </div>
+
+            <!-- Enlace para volver a la pantalla principal -->
+            <div class="login-footer">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lógica interactiva del login y del registro -->
+    <script src="login-script.js"></script>
+</body>
+</html>

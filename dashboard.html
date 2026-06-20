@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos base y título del panel de roles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC-PYME | Panel de Roles</title>
+    <!-- Estilos del panel de control -->
+    <link rel="stylesheet" href="dashboard-style.css">
+    <!-- Iconos de apoyo visual para acciones y estados -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Barra superior con marca y salida de sesión -->
+    <header class="topbar">
+        <div class="brand">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <strong>SOC-PYME</strong>
+                <span>Panel de Operaciones</span>
+            </div>
+        </div>
+        <div class="topbar-actions">
+            <span id="session-role" class="role-pill">Sesión activa</span>
+            <a href="login.html" class="ghost-link"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+        </div>
+    </header>
+
+    <!-- Contenedor principal que agrupa todos los paneles -->
+    <main class="dashboard-shell">
+        <!-- Selector para cambiar entre vistas de rol -->
+        <section class="role-switcher">
+            <button class="role-tab active" data-role-target="admin-panel">Administrador</button>
+            <button class="role-tab" data-role-target="user-panel">Usuario / Cliente</button>
+            <button class="role-tab" data-role-target="developer-panel">Desarrollador</button>
+        </section>
+
+        <!-- Vista para el rol de administrador -->
+        <section id="admin-panel" class="role-panel active">
+            <div class="panel-hero admin-hero">
+                <div>
+                    <p class="eyebrow">Administrador del SOC</p>
+                    <h1>Control total sobre amenazas y contención</h1>
+                    <p class="panel-copy">Supervisa los daños, aísla activos críticos y revisa mitigaciones recientes.</p>
+                </div>
+                <div class="threat-card">
+                    <span>Nivel de amenaza actual</span>
+                    <strong id="threat-level">Medio</strong>
+                </div>
+            </div>
+
+            <div class="metric-grid">
+                <article class="metric-card danger">
+                    <span>Métricas de Control de Daños</span>
+                    <strong>Alerta: 7 incidentes</strong>
+                    <small>2 críticos, 3 medios, 2 contenidos</small>
+                </article>
+                <article class="metric-card warning">
+                    <span>Dispositivos Críticos</span>
+                    <strong>4 en riesgo</strong>
+                    <small>Servidor ERP, estación Finanzas, NAS y laptop RRHH</small>
+                </article>
+                <article class="metric-card success">
+                    <span>Mitigaciones recientes</span>
+                    <strong>98% efectivas</strong>
+                    <small>Respuesta automatizada y reglas de contención activas</small>
+                </article>
+            </div>
+
+            <div class="content-grid two-columns">
+                <section class="panel-card">
+                    <div class="panel-title-row">
+                        <h2>Dispositivos Críticos en Riesgo</h2>
+                        <button id="btn-isolate-server" class="action-btn">Aislar Servidor</button>
+                    </div>
+                    <div class="device-list" id="device-list">
+                        <div class="device-item critical" data-device="Servidor ERP">
+                            <div>
+                                <strong>Servidor ERP</strong>
+                                <span>Vulnerable</span>
+                            </div>
+                            <small>Intento de exfiltración detectado</small>
+                        </div>
+                        <div class="device-item">
+                            <div>
+                                <strong>PC Finanzas</strong>
+                                <span>Monitoreado</span>
+                            </div>
+                            <small>Correo malicioso en análisis</small>
+                        </div>
+                        <div class="device-item">
+                            <div>
+                                <strong>NAS Documental</strong>
+                                <span>Observado</span>
+                            </div>
+                            <small>Sincronización sospechosa en curso</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel-card">
+                    <div class="panel-title-row">
+                        <h2>Historial de Mitigaciones</h2>
+                        <button id="btn-pdf-report" class="action-btn secondary">Generar Reporte PDF</button>
+                    </div>
+                    <div class="timeline" id="mitigation-log">
+                        <div class="timeline-item">
+                            <strong>08:42</strong>
+                            <p>Atacante externo intentó acceder a credenciales de ERP.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>09:15</strong>
+                            <p>Se bloquearon 3 IPs y se revocó acceso al recurso compartido.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>10:05</strong>
+                            <p>Se aisló un endpoint con comportamiento anómalo.</p>
+                        </div>
+                    </div>
+                    <p id="pdf-status" class="status-line"></p>
+                    <p id="admin-status" class="status-line"></p>
+                </section>
+            </div>
+        </section>
+
+        <!-- Vista para el rol de usuario o cliente -->
+        <section id="user-panel" class="role-panel">
+            <div class="panel-hero user-hero">
+                <div>
+                    <p class="eyebrow">Usuario / Cliente</p>
+                    <h1>Tu empresa se encuentra protegida</h1>
+                    <p class="panel-copy">Vista simple, limpia y con acciones rápidas para revisar seguridad sin tecnicismos.</p>
+                </div>
+                <div class="traffic-light">
+                    <span class="light red"></span>
+                    <span class="light yellow"></span>
+                    <span class="light green active"></span>
+                    <strong>PROTEGIDO</strong>
+                </div>
+            </div>
+
+            <div class="content-grid two-columns">
+                <section class="panel-card">
+                    <div class="panel-title-row">
+                        <h2>Ataques detenidos este mes</h2>
+                        <button id="btn-scan-pc" class="action-btn">Escanear mi Computadora</button>
+                    </div>
+                    <div class="bar-chart" aria-label="Ataques detenidos este mes">
+                        <div class="bar" style="height: 42%;"><span>Ene</span></div>
+                        <div class="bar" style="height: 58%;"><span>Feb</span></div>
+                        <div class="bar" style="height: 64%;"><span>Mar</span></div>
+                        <div class="bar" style="height: 76%;"><span>Abr</span></div>
+                        <div class="bar" style="height: 84%;"><span>May</span></div>
+                        <div class="bar highlight" style="height: 94%;"><span>Jun</span></div>
+                    </div>
+                    <div class="scan-box" id="scan-box">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="scan-progress"></div>
+                        </div>
+                        <p id="scan-message">Listo para ejecutar análisis local.</p>
+                    </div>
+                </section>
+
+                <section class="panel-card">
+                    <div class="panel-title-row">
+                        <h2>Línea Directa con el SOC</h2>
+                        <span class="support-pill">Respuesta en menos de 10 min</span>
+                    </div>
+                    <div class="support-box">
+                        <p>Si sospechas un correo raro o un archivo extraño, envía un incidente directo a la mesa de ayuda.</p>
+                        <ul>
+                            <li>Correo de soporte: soporte@soc-pyme.local</li>
+                            <li>Teléfono: +57 300 000 0000</li>
+                            <li>Prioridad: Alta si el equipo está comprometido</li>
+                        </ul>
+                    </div>
+                    <form id="incident-form" class="incident-form">
+                        <textarea id="incident-text" placeholder='Ej: "Me llegó un correo raro"' rows="4"></textarea>
+                        <button type="submit" class="action-btn">Enviar reporte al SOC</button>
+                    </form>
+                    <p id="incident-status" class="status-line"></p>
+                </section>
+            </div>
+        </section>
+
+        <!-- Vista para el rol de desarrollador -->
+        <section id="developer-panel" class="role-panel">
+            <div class="panel-hero dev-hero">
+                <div>
+                    <p class="eyebrow">Desarrollador</p>
+                    <h1>Consolas, telemetría y reglas de defensa</h1>
+                    <p class="panel-copy">Supervisa APIs, rendimiento y actualizaciones técnicas del sistema SOC.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="debug-toggle">
+                    <span class="slider"></span>
+                    <span class="switch-label">Modo de Depuración</span>
+                </label>
+            </div>
+
+            <div class="content-grid three-columns">
+                <section class="panel-card console-card">
+                    <h2>Monitor 01</h2>
+                    <div class="console-window">
+                        <p>[INFO] CPU simulado: <strong>61%</strong></p>
+                        <p>[INFO] Latencia firewall: <strong>18 ms</strong></p>
+                        <p>[INFO] API seguridad: <strong>Operativa</strong></p>
+                    </div>
+                </section>
+                <section class="panel-card console-card">
+                    <h2>Monitor 02</h2>
+                    <div class="console-window">
+                        <p>[NET] Tráfico inspeccionado en tiempo real.</p>
+                        <p>[NET] Reglas activas: 128.</p>
+                        <p>[NET] Anomalías severas: 0.</p>
+                    </div>
+                </section>
+                <section class="panel-card console-card">
+                    <h2>Monitor 03</h2>
+                    <div class="console-window debug-output" id="debug-output">
+                        <p>[KERNEL] Panel listo para compilación.</p>
+                        <p>[KERNEL] Módulos de telemetría sincronizados.</p>
+                        <p class="hidden-debug">function audit() { return 'ok'; }</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="content-grid two-columns developer-secondary">
+                <section class="panel-card">
+                    <div class="panel-title-row">
+                        <h2>Métricas del sistema</h2>
+                        <button id="btn-update-virus-db" class="action-btn">Actualizar Base de Datos de Virus</button>
+                    </div>
+                    <div class="metrics-stack">
+                        <div class="sys-metric"><span>CPU</span><strong>61%</strong></div>
+                        <div class="sys-metric"><span>Red</span><strong>18 ms</strong></div>
+                        <div class="sys-metric"><span>APIs</span><strong>Estables</strong></div>
+                    </div>
+                    <div class="update-box">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="update-progress"></div>
+                        </div>
+                        <p id="update-message">Listo para descargar firmas.</p>
+                    </div>
+                </section>
+
+                <section class="panel-card">
+                    <h2>Reglas de Firewall Activas</h2>
+                    <div class="firewall-list">
+                        <div class="firewall-item">Regla 45: Bloquear IPs de Rusia</div>
+                        <div class="firewall-item">Regla 46: Filtrar Inyecciones SQL</div>
+                        <div class="firewall-item">Regla 47: Contener archivos .exe sospechosos</div>
+                        <div class="firewall-item">Regla 48: Forzar MFA en cuentas administrativas</div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <!-- Comportamiento dinámico del panel -->
+    <script src="dashboard.js"></script>
+</body>
+</html>
