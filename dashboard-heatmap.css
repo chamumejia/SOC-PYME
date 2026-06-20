@@ -11,11 +11,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 85%);
+    background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08), transparent 46%);
 }
 
 .heatmap-card > * {
@@ -57,11 +53,8 @@
     position: relative;
     min-height: 460px;
     border-radius: 18px;
-    background:
-        linear-gradient(180deg, rgba(8, 47, 73, 0.22), rgba(2, 6, 23, 0.98)),
-        repeating-linear-gradient(0deg, rgba(148, 163, 184, 0.035) 0, rgba(148, 163, 184, 0.035) 1px, transparent 1px, transparent 18px),
-        #020617;
-    box-shadow: inset 0 0 80px rgba(0, 242, 254, 0.08), 0 24px 60px rgba(0, 0, 0, 0.28);
+    background: #f8fbff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
 .world-map-stage::after {
@@ -69,7 +62,7 @@
     position: absolute;
     left: 22px;
     bottom: 18px;
-    color: rgba(203, 213, 225, 0.32);
+    color: rgba(37, 99, 235, 0.34);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.22em;
@@ -78,86 +71,116 @@
 
 .world-map {
     min-height: 460px;
-    filter: saturate(1.12);
+    filter: saturate(1.08);
 }
 
 .map-ocean {
-    fill: rgba(2, 6, 23, 0.74);
+    fill: #f8fbff;
 }
 
-.map-grid-lines path {
-    stroke: rgba(125, 211, 252, 0.08);
+.map-grid-lines {
+    display: none;
+}
+
+.real-world-silhouette path {
+    fill: #2f80d8;
+    stroke: rgba(255, 255, 255, 0.42);
+    stroke-width: 1.1;
+    vector-effect: non-scaling-stroke;
+}
+
+.real-world-borders path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 0.7;
+    vector-effect: non-scaling-stroke;
 }
 
 .continent {
+    cursor: pointer;
     outline: none;
+    pointer-events: all;
     transform-box: fill-box;
 }
 
 .continent path {
-    fill: rgba(30, 41, 59, 0.94);
-    stroke: rgba(148, 163, 184, 0.28);
-    stroke-width: 2.5;
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 14;
+    pointer-events: all;
     vector-effect: non-scaling-stroke;
 }
 
-.continent.critical path {
-    fill: rgba(239, 68, 68, 0.56);
-    stroke: rgba(255, 111, 111, 0.95);
-    filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.58));
-}
-
-.continent.grave path {
-    fill: rgba(245, 158, 11, 0.52);
-    stroke: rgba(251, 191, 36, 0.95);
-    filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.42));
-}
-
-.continent.mild path {
-    fill: rgba(16, 185, 129, 0.38);
-    stroke: rgba(52, 211, 153, 0.9);
-    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.25));
-}
-
-.continent.active path {
-    stroke: #f8fafc;
-    stroke-width: 4;
-}
-
+.continent.active path,
 .continent:hover path,
 .continent:focus-visible path {
-    stroke: #ffffff;
-    stroke-width: 4;
+    stroke: rgba(37, 99, 235, 0.28);
+    filter: none;
+}
+
+.continent.critical path,
+.continent.grave path,
+.continent.mild path {
+    fill: transparent;
+    stroke: transparent;
+    filter: none;
+}
+
+.continent.critical.active path,
+.continent.grave.active path,
+.continent.mild.active path,
+.continent:hover path,
+.continent:focus-visible path {
+    stroke: rgba(29, 78, 216, 0.28);
 }
 
 .map-region-label {
-    fill: rgba(248, 250, 252, 0.78);
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-anchor: middle;
-    pointer-events: none;
-    paint-order: stroke;
-    stroke: rgba(2, 6, 23, 0.86);
-    stroke-width: 5px;
+    display: none;
+}
+
+.heat-pulses {
+    mix-blend-mode: multiply;
+    filter: blur(14px);
 }
 
 .heat-pulses .pulse {
     transform-box: fill-box;
     transform-origin: center;
-    stroke-width: 5;
+    stroke: transparent;
+    opacity: 0.72;
+    animation: softHeatPulse 3s infinite ease-in-out;
 }
 
 .pulse-critical {
-    stroke: rgba(255, 91, 91, 0.95);
+    fill: rgba(239, 68, 68, 0.9);
 }
 
 .pulse-grave {
-    stroke: rgba(251, 191, 36, 0.95);
+    fill: rgba(245, 158, 11, 0.78);
 }
 
 .pulse-mild {
-    stroke: rgba(52, 211, 153, 0.95);
+    fill: rgba(34, 197, 94, 0.58);
+}
+
+.map-heat-core {
+    mix-blend-mode: multiply;
+    filter: blur(22px);
+    pointer-events: none;
+}
+
+.map-heat-core circle {
+    opacity: 0.74;
+    transition: cx 0.35s ease, cy 0.35s ease, r 0.35s ease, fill 0.35s ease;
+}
+
+.map-focus-ring circle {
+    fill: none;
+    stroke: rgba(29, 78, 216, 0.55);
+    stroke-width: 3;
+    stroke-dasharray: 8 8;
+    pointer-events: none;
+    animation: focusSpin 9s linear infinite;
 }
 
 .map-detail-card {
@@ -273,10 +296,6 @@
         min-height: 330px;
     }
 
-    .map-region-label {
-        font-size: 16px;
-    }
-
     .region-watch-item {
         grid-template-columns: 10px minmax(0, 1fr);
     }
@@ -287,5 +306,22 @@
 
     .map-legend {
         justify-content: flex-start;
+    }
+}
+
+@keyframes softHeatPulse {
+    0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.58;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 0.82;
+    }
+}
+
+@keyframes focusSpin {
+    to {
+        stroke-dashoffset: -80;
     }
 }
