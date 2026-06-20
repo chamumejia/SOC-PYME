@@ -71,29 +71,19 @@
 
 .world-map {
     min-height: 460px;
-    filter: saturate(1.08);
+    background:
+        #f8fbff url('https://upload.wikimedia.org/wikipedia/commons/a/af/BlueWorldMap.png') center 48% / 94% auto no-repeat;
+    filter: saturate(1.04);
 }
 
 .map-ocean {
-    fill: #f8fbff;
+    fill: transparent;
 }
 
-.map-grid-lines {
+.map-grid-lines,
+.real-world-silhouette,
+.real-world-borders {
     display: none;
-}
-
-.real-world-silhouette path {
-    fill: #2f80d8;
-    stroke: rgba(255, 255, 255, 0.42);
-    stroke-width: 1.1;
-    vector-effect: non-scaling-stroke;
-}
-
-.real-world-borders path {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.22);
-    stroke-width: 0.7;
-    vector-effect: non-scaling-stroke;
 }
 
 .continent {
@@ -114,7 +104,7 @@
 .continent.active path,
 .continent:hover path,
 .continent:focus-visible path {
-    stroke: rgba(37, 99, 235, 0.28);
+    stroke: rgba(37, 99, 235, 0.26);
     filter: none;
 }
 
@@ -131,7 +121,7 @@
 .continent.mild.active path,
 .continent:hover path,
 .continent:focus-visible path {
-    stroke: rgba(29, 78, 216, 0.28);
+    stroke: rgba(29, 78, 216, 0.26);
 }
 
 .map-region-label {
@@ -140,43 +130,45 @@
 
 .heat-pulses {
     mix-blend-mode: multiply;
-    filter: blur(14px);
+    filter: blur(7px);
+    opacity: 0.58;
 }
 
 .heat-pulses .pulse {
     transform-box: fill-box;
     transform-origin: center;
     stroke: transparent;
-    opacity: 0.72;
+    opacity: 0.5;
     animation: softHeatPulse 3s infinite ease-in-out;
 }
 
 .pulse-critical {
-    fill: rgba(239, 68, 68, 0.9);
+    fill: rgba(239, 68, 68, 0.62);
 }
 
 .pulse-grave {
-    fill: rgba(245, 158, 11, 0.78);
+    fill: rgba(245, 158, 11, 0.5);
 }
 
 .pulse-mild {
-    fill: rgba(34, 197, 94, 0.58);
+    fill: rgba(34, 197, 94, 0.38);
 }
 
 .map-heat-core {
     mix-blend-mode: multiply;
-    filter: blur(22px);
+    filter: blur(16px);
+    opacity: 0.72;
     pointer-events: none;
 }
 
 .map-heat-core circle {
-    opacity: 0.74;
+    opacity: 0.5;
     transition: cx 0.35s ease, cy 0.35s ease, r 0.35s ease, fill 0.35s ease;
 }
 
 .map-focus-ring circle {
     fill: none;
-    stroke: rgba(29, 78, 216, 0.55);
+    stroke: rgba(29, 78, 216, 0.48);
     stroke-width: 3;
     stroke-dasharray: 8 8;
     pointer-events: none;
@@ -312,11 +304,11 @@
 @keyframes softHeatPulse {
     0%, 100% {
         transform: scale(0.96);
-        opacity: 0.58;
+        opacity: 0.42;
     }
     50% {
-        transform: scale(1.08);
-        opacity: 0.82;
+        transform: scale(1.06);
+        opacity: 0.62;
     }
 }
 
