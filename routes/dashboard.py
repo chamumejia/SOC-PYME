@@ -21,7 +21,7 @@ def index():
     )
 
 
-@dashboard_bp.route("/configuracion")
+@dashboard_bp.route("/configuracion", methods=["GET", "POST"])
 @login_required
 def settings():
     # Maneja GET para mostrar y POST para guardar la preferencia de tema

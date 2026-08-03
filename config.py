@@ -1,15 +1,30 @@
 """Configuración de la aplicación SOC-PYME Solutions."""
 import os
 
+import tempfile
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
+def _default_database_uri():
+    """Devuelve la URI de la base de datos por defecto.
+
+    En Vercel no se puede escribir en el directorio del proyecto; usamos la ruta
+    de temporales del sistema si no hay DATABASE_URL definida.
+    """
+    if os.environ.get("DATABASE_URL"):
+        return os.environ["DATABASE_URL"]
+
+    if os.environ.get("VERCEL"):
+        return f"sqlite:///{os.path.join(tempfile.gettempdir(), 'socpyme.db')}"
+
+    return "sqlite:///" + os.path.join(BASE_DIR, "socpyme.db")
 
 
 class Config:
     """Configuración base."""
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-cambia-esto-en-produccion-2026")
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", "sqlite:///" + os.path.join(BASE_DIR, "socpyme.db")
-    )
+    SQLALCHEMY_DATABASE_URI = _default_database_uri()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Seguridad de sesiones / cookies

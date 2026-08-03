@@ -13,7 +13,10 @@ from extensions import db, login_manager, csrf
 
 
 def create_app(config_name=None):
-    config_name = config_name or os.environ.get("FLASK_CONFIG", "default")
+    config_name = config_name or os.environ.get("FLASK_CONFIG")
+    if not config_name:
+        config_name = "production" if os.environ.get("VERCEL") else "default"
+
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
 
@@ -49,20 +52,21 @@ def create_app(config_name=None):
     _register_errors(app)
     _register_cli(app)
 
-    with app.app_context():
-        db.create_all()
-        # Migraremos la columna `theme` si la tabla ya existía sin dicha columna.
+    @app.before_first_request
+    def initialize_database():
         try:
+            db.create_all()
+            # Migraremos la columna `theme` si la tabla ya existía sin dicha columna.
             inspector = inspect(db.engine)
             cols = [c["name"] for c in inspector.get_columns("users")]
             if "theme" not in cols:
                 with db.engine.connect() as conn:
                     conn.execute(text("ALTER TABLE users ADD COLUMN theme VARCHAR(32) DEFAULT 'default'"))
                     conn.commit()
-        except Exception:
-            # Fallar silenciosamente: la app sigue funcionando y la creación de tablas nueva
-            # cubrirá el campo en bases nuevas.
-            pass
+        except Exception as exc:
+            app.logger.error("No se pudo inicializar la base de datos: %s", exc)
+            # No abortamos la creación del app callable; Vercel puede manejar rutas
+            # y mostrar un error controlado en la app si la DB no está disponible.
 
     return app
 
