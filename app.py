@@ -52,11 +52,9 @@ def create_app(config_name=None):
     _register_errors(app)
     _register_cli(app)
 
-    @app.before_first_request
-    def initialize_database():
+    with app.app_context():
         try:
             db.create_all()
-            # Migraremos la columna `theme` si la tabla ya existía sin dicha columna.
             inspector = inspect(db.engine)
             cols = [c["name"] for c in inspector.get_columns("users")]
             if "theme" not in cols:
@@ -65,8 +63,6 @@ def create_app(config_name=None):
                     conn.commit()
         except Exception as exc:
             app.logger.error("No se pudo inicializar la base de datos: %s", exc)
-            # No abortamos la creación del app callable; Vercel puede manejar rutas
-            # y mostrar un error controlado en la app si la DB no está disponible.
 
     return app
 
