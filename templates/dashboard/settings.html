@@ -1,0 +1,48 @@
+{% extends "base_app.html" %}
+{% set active_page = 'settings' %}
+{% block title %}Configuración · SOC-PYME{% endblock %}
+{% block page_title %}Configuración de tema{% endblock %}
+{% block page_sub %}Personaliza tu panel con colores y ambiente visual{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <div class="page-head">
+    <div>
+      <div class="panel-title">Ajustes de apariencia</div>
+      <div class="panel-desc">Selecciona el estilo que más te guste. El tema se guarda en tu navegador.</div>
+    </div>
+  </div>
+
+  <form id="theme-form" class="theme-settings" method="post" action="{{ url_for('dashboard.settings') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="theme-card">
+      <label>
+        <input type="radio" name="theme" value="default" {% if current_user.is_authenticated and current_user.theme == 'default' %}checked{% endif %}>
+        <div>
+          <strong>Claro profesional</strong>
+          <p>Colores corporativos suaves con fondo blanco y acentos azulados.</p>
+        </div>
+      </label>
+    </div>
+    <div class="theme-card">
+      <label>
+        <input type="radio" name="theme" value="dark" {% if current_user.is_authenticated and current_user.theme == 'dark' %}checked{% endif %}>
+        <div>
+          <strong>Oscuro</strong>
+          <p>Modo noche para trabajar con menos brillo y foco en datos.</p>
+        </div>
+      </label>
+    </div>
+    <div class="theme-card">
+      <label>
+        <input type="radio" name="theme" value="neon" {% if current_user.is_authenticated and current_user.theme == 'neon' %}checked{% endif %}>
+        <div>
+          <strong>Neón</strong>
+          <p>Paleta vibrante con contrastes eléctricos para un look moderno.</p>
+        </div>
+      </label>
+    </div>
+  </form>
+  <p style="margin-top:14px;"><button form="theme-form" class="btn-fill">Guardar cambios</button></p>
+</div>
+{% endblock %}

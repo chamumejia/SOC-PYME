@@ -6,6 +6,7 @@ import time
 import click
 from flask import Flask, render_template
 from flask_login import current_user
+from sqlalchemy import inspect, text
 
 from config import config_by_name
 from extensions import db, login_manager, csrf
@@ -50,6 +51,18 @@ def create_app(config_name=None):
 
     with app.app_context():
         db.create_all()
+        # Migraremos la columna `theme` si la tabla ya existía sin dicha columna.
+        try:
+            inspector = inspect(db.engine)
+            cols = [c["name"] for c in inspector.get_columns("users")]
+            if "theme" not in cols:
+                with db.engine.connect() as conn:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN theme VARCHAR(32) DEFAULT 'default'"))
+                    conn.commit()
+        except Exception:
+            # Fallar silenciosamente: la app sigue funcionando y la creación de tablas nueva
+            # cubrirá el campo en bases nuevas.
+            pass
 
     return app
 

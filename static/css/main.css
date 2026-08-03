@@ -22,6 +22,42 @@
   --yellow: #F59E0B;
 }
 
+html[data-theme="dark"] {
+  --navy: #071824;
+  --navy-deep: #020b16;
+  --blue: #4f8bb7;
+  --cyan: #38c6d8;
+  --cyan-pale: #0b1f2e;
+  --white: #e2e8f0;
+  --off-white: #071824;
+  --gray-100: #0f172a;
+  --gray-200: #1e293b;
+  --gray-400: #94a3b8;
+  --gray-600: #cbd5e1;
+  --gray-800: #e2e8f0;
+  --red: #f87171;
+  --green: #34d399;
+  --yellow: #fbbf24;
+}
+
+html[data-theme="neon"] {
+  --navy: #020617;
+  --navy-deep: #030914;
+  --blue: #5eead4;
+  --cyan: #7c3aed;
+  --cyan-pale: #08111f;
+  --white: #eef2ff;
+  --off-white: #020617;
+  --gray-100: #111827;
+  --gray-200: #1f2937;
+  --gray-400: #94a3b8;
+  --gray-600: #c7d2fe;
+  --gray-800: #e0e7ff;
+  --red: #fb7185;
+  --green: #34d399;
+  --yellow: #facc15;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
@@ -64,6 +100,11 @@ nav {
 
 .logo-name { font-size: 16px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
 .logo-name span { color: var(--cyan); }
+
+.logo svg { display: block; max-height: 38px; max-width: 180px; }
+.logo .brand-logo { height: 38px; width: auto; }
+
+.brand-logo-wrap { display: inline-flex; align-items: center; gap: 12px; }
 
 nav ul { list-style: none; display: flex; align-items: center; gap: 28px; }
 nav ul a { text-decoration: none; color: var(--gray-600); font-size: 14px; font-weight: 500; transition: color 0.2s; }

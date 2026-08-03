@@ -89,6 +89,22 @@ body.app { background: var(--off-white); color: var(--gray-800); }
 /* === CONTENT === */
 .content { padding: 28px; flex: 1; }
 .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+
+/* === THEME SETTINGS === */
+.theme-settings { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.theme-card { border: 1px solid var(--gray-200); border-radius: 18px; padding: 22px; background: var(--white); transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+.theme-card:hover { transform: translateY(-2px); border-color: var(--cyan); box-shadow: 0 16px 40px rgba(10, 37, 64, 0.08); }
+.theme-card label { display: grid; gap: 18px; cursor: pointer; }
+.theme-card input { width: 18px; height: 18px; accent-color: var(--cyan); }
+.theme-card strong { display: block; font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+.theme-card p { font-size: 13px; color: var(--gray-600); line-height: 1.7; }
+
+html[data-theme="dark"] .theme-card,
+html[data-theme="neon"] .theme-card { background: var(--navy-deep); border-color: rgba(255, 255, 255, 0.08); }
+html[data-theme="dark"] .theme-card strong,
+html[data-theme="neon"] .theme-card strong { color: var(--white); }
+html[data-theme="dark"] .theme-card p,
+html[data-theme="neon"] .theme-card p { color: var(--gray-400); }
 .page-head h2 { font-size: 22px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
 .page-head p { color: var(--gray-600); font-size: 14px; margin-top: 4px; }
 

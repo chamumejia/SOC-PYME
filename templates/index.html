@@ -4,12 +4,13 @@
 <!-- HERO -->
 <div class="hero" id="plataforma">
   <div class="hero-left">
+    {% include '_logo.html' %}
     <div class="hero-tag">
       <div class="hero-tag-dot"></div>
       Monitoreo activo · Latinoamérica
     </div>
-    <h1>Protegé tu empresa.<br>Sin complicaciones,<br><span class="hl">sin costos enterprise.</span></h1>
-    <p class="hero-sub">La plataforma de ciberseguridad diseñada para PYMES. Monitoreá eventos, detectá amenazas y gestioná incidentes desde un solo lugar.</p>
+    <h1>Protege tu empresa.<br>Sin complicaciones,<br><span class="hl">sin costos enterprise.</span></h1>
+    <p class="hero-sub">La plataforma de ciberseguridad diseñada para PYMES. Monitorea eventos, detecta amenazas y gestiona incidentes desde un solo lugar.</p>
     <div class="hero-ctas">
       <a class="btn-fill" href="{{ url_for('auth.register') }}">Probar 14 días gratis →</a>
       <a class="btn-outline" href="{{ url_for('auth.login', demo=1) }}">Ver demo en vivo</a>
@@ -140,7 +141,7 @@
         <li><div class="check-icon">✓</div>Reportes mensuales PDF</li>
         <li><div class="check-icon">✓</div>Soporte estándar</li>
       </ul>
-      <a class="plan-action outline" href="{{ url_for('auth.register') }}">Comenzar gratis</a>
+      <a class="plan-action outline" href="{{ url_for('auth.register') }}">Crear cuenta gratis</a>
     </div>
 
     <div class="plan featured reveal">
@@ -156,7 +157,7 @@
         <li><div class="check-icon">✓</div>Gestión de incidentes</li>
         <li><div class="check-icon">✓</div>Reportes detallados</li>
       </ul>
-      <a class="plan-action fill" href="{{ url_for('auth.register') }}">Comenzar gratis</a>
+      <a class="plan-action fill" href="{{ url_for('auth.register') }}">Crear cuenta gratis</a>
     </div>
 
     <div class="plan reveal">
@@ -179,27 +180,27 @@
 <!-- PROCESS -->
 <section class="process">
   <p class="section-label">¿Cómo funciona?</p>
-  <h2 class="reveal">En 4 pasos, protegés tu empresa.</h2>
+  <h2 class="reveal">En 4 pasos, protege tu empresa.</h2>
   <div class="steps">
     <div class="step reveal">
       <div class="step-num">01</div>
-      <h3>Creá tu cuenta</h3>
-      <p>Registrate en minutos. Sin tarjeta de crédito. 14 días de prueba completa.</p>
+      <h3>Crea tu cuenta</h3>
+      <p>Regístrate en minutos. Sin tarjeta de crédito. 14 días de prueba completa.</p>
     </div>
     <div class="step reveal">
       <div class="step-num">02</div>
-      <h3>Conectá tu infraestructura</h3>
-      <p>Integrá tus servidores y dispositivos vía API REST o syslog.</p>
+      <h3>Conecta tu infraestructura</h3>
+      <p>Integra tus servidores y dispositivos vía API REST o syslog.</p>
     </div>
     <div class="step reveal">
       <div class="step-num">03</div>
-      <h3>Configurá tus alertas</h3>
-      <p>Definí umbrales de riesgo y canales de notificación para tu equipo.</p>
+      <h3>Configura tus alertas</h3>
+      <p>Define umbrales de riesgo y canales de notificación para tu equipo.</p>
     </div>
     <div class="step reveal">
       <div class="step-num">04</div>
-      <h3>Monitoreá y respondé</h3>
-      <p>Recibí alertas, gestioná incidentes y generá reportes para tu gerencia.</p>
+      <h3>Monitorea y responde</h3>
+      <p>Recibe alertas, gestiona incidentes y genera reportes para tu gerencia.</p>
     </div>
   </div>
 </section>
@@ -218,8 +219,7 @@
 <footer>
   <div class="footer-left">
     <div class="logo" style="margin-bottom:6px;">
-      <div class="logo-icon"></div>
-      <span class="logo-name">SOC-<span>PYME</span></span>
+      {% include '_logo.html' %}
     </div>
     <p>© 2026 SOC-PYME Solutions · Medellín, Colombia</p>
   </div>

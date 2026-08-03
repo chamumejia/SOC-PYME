@@ -28,6 +28,44 @@
     navToggle.addEventListener("click", () => navMenu.classList.toggle("open"));
   }
 
+  // --- Theme persistence ------------------------------------------------
+  const themeKey = "socpyme-theme";
+  const supportedThemes = ["default", "dark", "neon"];
+
+  function applyTheme(theme) {
+    if (!supportedThemes.includes(theme)) theme = "default";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(themeKey, theme);
+  }
+
+  function loadTheme() {
+    // If the server set a theme (authenticated user), respect it and sync localStorage.
+    const serverTheme = document.documentElement.getAttribute("data-theme");
+    if (serverTheme) {
+      applyTheme(serverTheme);
+      document.querySelectorAll('input[name="theme"]').forEach((input) => {
+        input.checked = input.value === serverTheme;
+      });
+      return;
+    }
+
+    const theme = localStorage.getItem(themeKey) || "default";
+    applyTheme(theme);
+    document.querySelectorAll('input[name="theme"]').forEach((input) => {
+      input.checked = input.value === theme;
+    });
+  }
+
+  const themeForm = document.getElementById("theme-form");
+  if (themeForm) {
+    themeForm.addEventListener("change", (event) => {
+      const selected = themeForm.querySelector('input[name="theme"]:checked');
+      if (selected) applyTheme(selected.value);
+    });
+  }
+
+  loadTheme();
+
   // --- Flash messages: cerrar y auto-descartar ----------------------------
   document.querySelectorAll(".flash").forEach((flash) => {
     const close = flash.querySelector(".flash-close");

@@ -6,8 +6,7 @@
 <div class="auth-wrap">
   <aside class="auth-aside">
     <a class="logo" href="{{ url_for('main.index') }}">
-      <div class="logo-icon"></div>
-      <span class="logo-name">SOC-<span>PYME</span></span>
+      {% include '_logo.html' %}
     </a>
     <div>
       <h2>Empezá a proteger tu empresa en minutos.</h2>
@@ -23,14 +22,14 @@
 
   <main class="auth-main">
     <div class="auth-card">
-      <h1>Creá tu cuenta gratis</h1>
-      <p class="lead">Completá tus datos y accedé al panel al instante.</p>
+      <h1>Crear cuenta gratis</h1>
+      <p class="lead">Completa tus datos y accede al panel al instante.</p>
 
       <form method="post" action="{{ url_for('auth.register') }}" data-validate="register" novalidate>
         {{ form.csrf_token }}
         <div class="field {% if form.name.errors %}has-error{% endif %}">
           <label for="name">Nombre completo</label>
-          <input type="text" id="name" name="name" value="{{ form.name.data or '' }}" placeholder="Camila Restrepo" required>
+          <input type="text" id="name" name="name" value="{{ form.name.data or '' }}" placeholder="Tu nombre completo" required>
           {% for e in form.name.errors %}<span class="err">{{ e }}</span>{% endfor %}
         </div>
         <div class="field {% if form.company.errors %}has-error{% endif %}">
@@ -50,13 +49,13 @@
         </div>
         <div class="field {% if form.confirm.errors %}has-error{% endif %}">
           <label for="confirm">Confirmar contraseña</label>
-          <input type="password" id="confirm" name="confirm" placeholder="Repetí la contraseña" required>
+          <input type="password" id="confirm" name="confirm" placeholder="Repite la contraseña" required>
           {% for e in form.confirm.errors %}<span class="err">{{ e }}</span>{% endfor %}
         </div>
         <button type="submit" class="btn-fill btn-block">Crear cuenta →</button>
       </form>
 
-      <p class="auth-alt">¿Ya tenés cuenta? <a href="{{ url_for('auth.login') }}">Ingresá acá</a></p>
+      <p class="auth-alt">¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Iniciar sesión</a></p>
     </div>
   </main>
 </div>

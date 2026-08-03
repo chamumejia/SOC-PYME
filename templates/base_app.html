@@ -13,8 +13,7 @@
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <a class="sidebar-brand logo" href="{{ url_for('dashboard.index') }}">
-        <div class="logo-icon"></div>
-        <span class="logo-name">SOC-<span>PYME</span></span>
+        {% include '_logo.html' %}
       </a>
       <nav class="sidebar-nav">
         <div class="sidebar-section">Operación</div>
@@ -29,6 +28,9 @@
         </a>
         <a href="{{ url_for('alerts.list_rules') }}" class="{% if active_page == 'alerts' %}active{% endif %}">
           <span class="ic">🚨</span> Alertas
+        </a>
+        <a href="{{ url_for('dashboard.settings') }}" class="{% if active_page == 'settings' %}active{% endif %}">
+          <span class="ic">⚙️</span> Configuración
         </a>
         <div class="sidebar-section">Recursos</div>
         <a href="{{ url_for('main.index') }}"><span class="ic">🌐</span> Ver landing</a>

@@ -49,6 +49,7 @@ class User(UserMixin, db.Model):
     company = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(160), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
+    theme = db.Column(db.String(32), nullable=False, default="default")
     created_at = db.Column(db.DateTime, default=utcnow, nullable=False)
 
     incidents = db.relationship("Incident", back_populates="assignee", lazy="dynamic")

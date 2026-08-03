@@ -1,13 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Ingresar · SOC-PYME Solutions{% endblock %}
+{% block title %}Iniciar sesión · SOC-PYME Solutions{% endblock %}
 {% block nav %}{% endblock %}
 
 {% block content %}
 <div class="auth-wrap">
   <aside class="auth-aside">
     <a class="logo" href="{{ url_for('main.index') }}">
-      <div class="logo-icon"></div>
-      <span class="logo-name">SOC-<span>PYME</span></span>
+      {% include '_logo.html' %}
     </a>
     <div>
       <h2>Tu centro de operaciones de seguridad, siempre a mano.</h2>
@@ -23,8 +22,8 @@
 
   <main class="auth-main">
     <div class="auth-card">
-      <h1>Ingresá a tu panel</h1>
-      <p class="lead">Bienvenido de vuelta. Iniciá sesión para continuar.</p>
+      <h1>Iniciar sesión en el panel</h1>
+      <p class="lead">Bienvenido de vuelta. Iniciar sesión para continuar.</p>
 
       {% if show_demo %}
       <div class="demo-box">
@@ -51,10 +50,10 @@
         <label class="checkbox-row">
           {{ form.remember() }} Recordarme en este equipo
         </label>
-        <button type="submit" class="btn-fill btn-block">Ingresar →</button>
+        <button type="submit" class="btn-fill btn-block">Iniciar sesión →</button>
       </form>
 
-      <p class="auth-alt">¿No tenés cuenta? <a href="{{ url_for('auth.register') }}">Creá una gratis</a></p>
+      <p class="auth-alt">¿No tienes cuenta? <a href="{{ url_for('auth.register') }}">Crear cuenta gratis</a></p>
     </div>
   </main>
 </div>

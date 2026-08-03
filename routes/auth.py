@@ -27,6 +27,7 @@ def register():
             name=form.name.data.strip(),
             company=form.company.data.strip(),
             email=email,
+            theme="default",
         )
         user.set_password(form.password.data)
         db.session.add(user)

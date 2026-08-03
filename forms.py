@@ -91,12 +91,12 @@ class AlertRuleForm(FlaskForm):
     )
     threshold = IntegerField(
         "Umbral (N.º de eventos)",
-        validators=[DataRequired(message="Ingresá un número entero."),
-                    NumberRange(min=1, max=100000, message="Debe ser un entero positivo.")],
+        validators=[DataRequired(message="Introduce un número entero."),
+                    NumberRange(min=1, max=100000, message="Debe ser un entero positivo." )],
     )
     window_minutes = IntegerField(
         "Ventana (minutos)",
-        validators=[DataRequired(message="Ingresá un número entero."),
+        validators=[DataRequired(message="Introduce un número entero."),
                     NumberRange(min=1, max=1440, message="Debe ser un entero positivo (máx. 1440).")],
     )
     channel = SelectField(
